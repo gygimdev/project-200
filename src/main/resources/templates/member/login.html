@@ -1,27 +1,34 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Login</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
+
 <body>
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
-    <form action="" method="post">
+
+    <!-- From -->
+    <form action="/member/login" method="post" th:object="${loginForm}">
+
+        <p class="h2 mb-4">Login</p>
+
+        <!-- Email -->
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <label for="email" class="form-label">Email address</label>
+            <input th:field="*{email}" th:value="*{email}" type="email" class="form-control" id="email" aria-describedby="emailHelp">
         </div>
+
+        <!-- Password -->
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <input th:field="*{password}" type="password" class="form-control" id="exampleInputPassword1">
         </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+<!--        <button type="" class="btn btn-primary">Sign in</button>-->
     </form>
 </div>
 </body>

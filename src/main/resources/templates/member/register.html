@@ -1,27 +1,44 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+  <title>Register</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
+
 <body>
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
-  <form action="" method="post">
+
+  <!-- Form -->
+  <form action="/member/register" th:object="${memberRegisterDto}" method="post">
+
+    <p class="h2 mb-4">Register Form</p>
+
+    <!-- Member Email -->
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <label for="email" class="form-label">Email address</label>
+      <input th:field="*{email}" id="email" name="email" type="email" class="form-control"  aria-describedby="emailHelp">
       <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     </div>
+
+    <!-- Member Username -->
     <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1">
+      <label for="username" class="form-label">Username</label>
+      <input id="username" type="text" class="form-control" th:field="*{username}" >
     </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+
+    <!-- Member Password -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input th:field="*{password}" id="password" type="password" class="form-control" >
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <!-- Button -->
+    <button type="submit" class="btn btn-primary">Register</button>
+
   </form>
+  <!-- End Form -->
 </div>
 </body>
 </html>
