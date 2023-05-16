@@ -20,7 +20,9 @@ public class Member {
 
     protected Member() {}
 
-    public Member(String email) {
+    public Member(String email, String username, String password) {
         this.email = email;
+        this.username = username;
+        this.password = password;
     }
 }

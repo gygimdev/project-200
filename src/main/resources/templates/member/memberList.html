@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container min-vh-100 min-vw-100 d-flex justify-content-center align-items-center">
+<div>
+    <!-- 테이블 타이틀 -->
+    <p class="h2 mb-4">List of Member</p>
+
+    <!-- 테이블 -->
+    <table class="table table-striped table-hover">
+
+        <!-- 헤드 -->
+        <thead class="table-light">
+        <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Username</th>
+            <th scope="col">button</th>
+        </tr>
+        </thead>
+
+        <!-- 바디 -->
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.email}"></td>
+            <td th:text="${member.username}"></td>
+            <td>
+                <button
+                        th:onclick="|location.href='@{/member/{memberId}(memberId=${member.id})}'|"
+                        type="button" class="btn btn-info btn-sm">Info</button>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+</div>
+</body>
+</html>

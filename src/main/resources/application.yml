@@ -10,3 +10,8 @@ spring:
     url: jdbc:mysql://localhost:3306/project
     username: root
     password: c^W2p#o/A9h*m
+
+# Logging
+logging:
+  level:
+    root: info
