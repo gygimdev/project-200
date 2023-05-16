@@ -1,0 +1,12 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  dataSource:
+    url: jdbc:mysql://localhost:3306/project
+    username: root
+    password: c^W2p#o/A9h*m
