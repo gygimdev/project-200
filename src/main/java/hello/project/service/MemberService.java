@@ -1,13 +1,12 @@
 package hello.project.service;
 
 import hello.project.domain.Member;
-import hello.project.dto.LoginForm;
 import hello.project.dto.MemberDto;
 import hello.project.dto.MemberForm;
 import hello.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,33 +19,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
-
     private final MemberRepository memberRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    /**
-     * 로그인
-     */
-    public Optional<MemberDto> loginMember(LoginForm loginForm) {
-        log.info("::: 로그인맴버 :::");
-        String email = loginForm.getEmail();
-        String plainText = loginForm.getPassword();
-
-        Optional<Member> findMember = memberRepository.findByEmail(email);
-
-        if (findMember.isPresent()) {
-            Member member = findMember.get();
-            if (checkEncodedPassword(plainText, member.getPassword())) {
-                log.info("::: debug :::");
-                MemberDto memberDto = new MemberDto();
-                memberDto.setId(findMember.get().getId());
-                memberDto.setEmail(findMember.get().getEmail());
-                memberDto.setUsername(findMember.get().getUsername());
-                return Optional.of(memberDto);
-            }
-        }
-        return Optional.empty();
-    }
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 서비스 회원상세
@@ -100,11 +74,11 @@ public class MemberService {
      * @return hashing 된 비밀번호(String)
      */
     private String createEncodePassword(String plainText) {
-        return bCryptPasswordEncoder.encode(plainText);
+        return passwordEncoder.encode(plainText);
     }
 
     private boolean checkEncodedPassword(String plainText, String encodedPassword) {
-        return bCryptPasswordEncoder.matches(plainText, encodedPassword);
+        return passwordEncoder.matches(plainText, encodedPassword);
 
     }
 

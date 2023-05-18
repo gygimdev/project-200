@@ -14,6 +14,9 @@
     <form action="/member/login" method="post" th:object="${loginForm}">
 
         <p class="h2 mb-4">Login</p>
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
 
         <!-- Email -->
         <div class="mb-3">

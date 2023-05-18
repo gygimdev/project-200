@@ -1,42 +1,41 @@
-package hello.project;
+package hello.project.security;
 
 import hello.project.domain.Member;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class MemberAuthenticationProvider implements AuthenticationProvider {
-
-    @Autowired
-    private MemberPrincipalDetailService memberPrincipalDetailService;
+    private final MemberDetailService memberDetailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+
+        // 입력된 회원 정보(email & password)
         String email = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        MemberPrincipalDetail memberPrincipalDetail = (MemberPrincipalDetail) memberPrincipalDetailService.loadUserByUsername(email);
+        // 조회한 회원의 보안정보
+        MemberDetails memberDetails = (MemberDetails) memberDetailService.loadUserByUsername(email);
+        String dbPassword = memberDetails.getPassword();
 
-        // DB에 저장된 password
-        String dbPassword = memberPrincipalDetail.getPassword();
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+        // 검증
         if (!passwordEncoder.matches(password, dbPassword)) {
-
             throw new BadCredentialsException("사용자 아이디가 일치하지 않습니다.");
         }
 
-        Member member = memberPrincipalDetail.getMember();
-        return new UsernamePasswordAuthenticationToken(memberPrincipalDetail, null, memberPrincipalDetail.getAuthorities());
+        Member member = memberDetails.getMember();
+        return new UsernamePasswordAuthenticationToken(memberDetails, null, memberDetails.getAuthorities());
     }
 
     @Override

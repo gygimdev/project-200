@@ -1,4 +1,4 @@
-package hello.project;
+package hello.project.security;
 
 import hello.project.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
@@ -6,11 +6,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class MemberPrincipalDetail implements UserDetails {
+public class MemberDetails implements UserDetails {
 
     private final Member member;
 
-    public MemberPrincipalDetail(Member member) {
+    public MemberDetails(Member member) {
         this.member = member;
     }
 
@@ -20,8 +20,6 @@ public class MemberPrincipalDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-//        authorities.add(new SimpleGrantedAuthority(member.getRole()));
         return null;
     }
 
@@ -37,6 +35,7 @@ public class MemberPrincipalDetail implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
+        // 사용자 계정의 만료 여부
         return false;
     }
 

@@ -69,14 +69,4 @@ public class MemberController {
         model.addAttribute("loginForm", new LoginForm());
         return "member/login";
     }
-
-    /**
-     * 로그인
-     */
-    @PostMapping("/member/login")
-    public String login(@Valid LoginForm form){
-        log.info("::: login :::");
-        memberService.loginMember(form);
-        return "redirect:/members";
-    }
 }

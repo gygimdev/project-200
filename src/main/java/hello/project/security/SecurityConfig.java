@@ -1,19 +1,22 @@
-package hello.project;
+package hello.project.security;
 
-import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-public class AppConfig {
+@EnableWebSecurity
+public class SecurityConfig {
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -21,8 +24,7 @@ public class AppConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable()
                 .authorizeHttpRequests(request -> request
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/css/*", "/member/register", "/member/login").permitAll()
+                        .requestMatchers("/css/*", "/member/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
@@ -32,6 +34,15 @@ public class AppConfig {
                         .passwordParameter("password")
                         .permitAll()
                 )
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                    .sessionFixation().migrateSession()
+                    .invalidSessionUrl("/login?expire")
+                    .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true)
+                        .expiredUrl("/login?expire")
+                        .and()
+                    .and()
                 .logout(withDefaults());
 
         return http.build();
