@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>Household List</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+<body>
+
+<!-- 네비게이션 바 -->
+<nav th:replace="~{base :: common_nav}"></nav>
+
+
+<div class="container min-vh-100 min-vw-100 d-flex justify-content-center align-items-center">
+    <div class="w-100">
+        <!-- 테이블 타이틀 -->
+        <p class="h2 ms-4 mb-4">List of household</p>
+
+        <!-- 안내 메세지 -->
+        <div class="mb-4 p-3 bg-info bg-opacity-10 border-start-0">
+            <span class="fs-6">If you want to create a 'household', please click</span>
+            <a th:href="@{/household/create}" class="link-primary fw-medium">Create Household</a>
+            <span>Otherwise, search below.</span>
+        </div>
+
+        <!-- 검색 창 -->
+        <form th:action="@{/household/search}" method="get" class="d-flex ms-4 mb-4" role="search">
+            <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success me-4" type="submit">Search</button>
+        </form>
+
+        <!-- 테이블 -->
+        <table th:if="${!households.isEmpty()}" class="table table-bordered table-hover">
+
+            <!-- 헤드 -->
+            <thead class="table-light">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col" class="col-4">apply</th>
+            </tr>
+            </thead>
+
+            <!-- 바디 -->
+            <tbody>
+            <tr th:each="household : ${households}">
+                <td th:text="${household.name}"></td>
+                <td class="text-center">
+                    <form  th:action="@{/household/join}" method="post">
+                        <input class="form-control me-2 visually-hidden" th:value="${household.id}" name="id" type="text">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Join</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+</body>
+</html>

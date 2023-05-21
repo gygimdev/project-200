@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class MemberForm {
+public class MemberRegistrationForm {
     @NotEmpty
     private String email;
 

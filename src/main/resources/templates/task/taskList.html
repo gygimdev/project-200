@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>TaskList</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+
+<body>
+    <!-- 네이게이션 바 -->
+    <nav th:replace="~{base :: common_nav}"></nav>
+
+    <div class="container min-vh-100 min-vw-100 d-flex justify-content-center align-items-center normal-font-size">
+        <div class="w-100">
+
+            <!-- 테이블 제목 -->
+
+            <div class="ms-4 mb-4 d-flex align-items-center">
+                <span class="large-font-size">TASK</span>
+                <button class="ms-2 btn btn-outline-primary btn-sm" th:onclick="|location.href='@{/task/create}'|" type="button">+</button>
+            </div>
+
+            <!-- 테이블 시작 -->
+            <table class="table table-hover">
+
+                <!-- 헤드 -->
+                <thead class="table-light">
+                <tr class="small-font-size">
+                    <th scope="col" class="col-1">
+                        <span>Status</span>
+                    </th>
+                    <th scope="col">
+                        <span>Task</span>
+                    </th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+
+                <!-- 바디 -->
+                <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td>
+                        <span class="badge text-bg-warning" th:text="${task.status}">테스크 상태</span>
+                    </td>
+                    <td class="text-center">
+                        <span th:text="${task.name}">제목은 여기에 들어갑니다.</span>
+                    </td>
+                    <td>
+                        <span><a href="#" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Detail</a></span>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</body>
+</html>

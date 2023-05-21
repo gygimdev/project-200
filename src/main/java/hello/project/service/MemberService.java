@@ -2,7 +2,7 @@ package hello.project.service;
 
 import hello.project.domain.Member;
 import hello.project.dto.MemberDto;
-import hello.project.dto.MemberForm;
+import hello.project.dto.MemberRegistrationForm;
 import hello.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +25,15 @@ public class MemberService {
     /**
      * 서비스 회원상세
      */
-    public MemberForm findMemberById(Long id){
-        Optional<Member> memberOptional = memberRepository.findById(id);
-        MemberForm memberForm = new MemberForm();
-        if (memberOptional.isPresent()) {
-            memberForm.setEmail(memberOptional.get().getEmail());
-            memberForm.setUsername(memberOptional.get().getUsername());
-        }
-        return memberForm;
-    }
+//    public MemberForm getMemberDetail(Long id){
+//        Optional<Member> memberOptional = memberRepository.findById(id);
+//        MemberForm memberForm = new MemberForm();
+//        if (memberOptional.isPresent()) {
+//            memberForm.setEmail(memberOptional.get().getEmail());
+//            memberForm.setUsername(memberOptional.get().getUsername());
+//        }
+//        return memberForm;
+//    }
 
     /**
      * 서비스 회원조회
@@ -56,7 +56,7 @@ public class MemberService {
      * 회원가입
      */
     @Transactional
-    public Long RegisterMember(MemberForm form) {
+    public Long RegisterMember(MemberRegistrationForm form) {
         String email = form.getEmail();
         String username = form.getUsername();
         String plainText = form.getPassword();

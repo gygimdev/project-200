@@ -24,12 +24,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/css/*", "/member/register").permitAll()
+                        .requestMatchers("/css/*", "/js/*", "https://unpkg.com/*", "/member/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/member/login")
-                        .defaultSuccessUrl("/members", true)
+                        // 로그인 성공시 redirect 되는 페이지
+                        .defaultSuccessUrl("/households", true)
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .permitAll()

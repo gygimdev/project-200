@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>Task Form</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+<body>
+<!-- 네비게이션 바 -->
+<nav th:replace="~{base :: common_nav}"></nav>
+
+<!-- 컨탠트 -->
+<div class="container min-vh-100 d-flex justify-content-center align-items-center normal-font-size">
+
+    <!-- Task From -->
+    <form th:action="@{/task/create}" method="post" th:object="${taskForm}">
+
+        <p class="large-font-size mb-4">Create Task</p>
+        <!-- Name -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input th:field="*{name}" th:value="*{name}" type="text" class="form-control" id="name">
+        </div>
+
+        <!-- Content -->
+
+        <div class="mb-3">
+            <label for="taskContent" class="form-label">Content</label>
+            <textarea th:field="*{content}" class="form-control" id="taskContent" rows="3"></textarea>
+        </div>
+
+        <button th:onclick="|location.href='@{/tasks}'|" type="button" class="btn btn-outline-primary normal-font-size">back</button>
+        <button type="submit" class="btn btn-primary normal-font-size">Create</button>
+    </form>
+</div>
+</body>
+</html>

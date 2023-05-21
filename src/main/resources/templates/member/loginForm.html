@@ -1,15 +1,17 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
     <title>Login</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
 
-<body>
-<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+<style th:replace="~{base :: common_style}"></style>
 
+<body>
+<!-- 네비게이션 바 -->
+<nav th:replace="~{base :: common_nav}"></nav>
+
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
     <!-- From -->
     <form action="/member/login" method="post" th:object="${loginForm}">
 

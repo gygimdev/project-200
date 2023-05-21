@@ -2,7 +2,7 @@ package hello.project.controller;
 
 import hello.project.dto.LoginForm;
 import hello.project.dto.MemberDto;
-import hello.project.dto.MemberForm;
+import hello.project.dto.MemberRegistrationForm;
 import hello.project.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +25,15 @@ public class MemberController {
     /**
      * 회원 상세
      */
-    @GetMapping("/member/{memberId}")
-    public String memberDetailView(@PathVariable Long memberId, Model model) {
-        MemberForm memberForm = memberService.findMemberById(memberId);
-        model.addAttribute("member", memberForm);
-        return "member/memberDetail";
-    }
+//    @GetMapping("/member/{memberId}")
+//    public String memberDetailView(@PathVariable Long memberId, Model model) {
+//        MemberDetailForm memberForm = memberService.getMemberDetail(memberId);
+//        model.addAttribute("member", memberForm);
+//        return "member/memberDetail";
+//    }
 
     /**
-     * 회원 조회
+     * Member 회원 리스트 조회
      */
     @GetMapping("/members")
     public String memberListView(Model model) {
@@ -43,19 +43,19 @@ public class MemberController {
     }
 
     /**
-     * 회원가입 폼
+     * Member 회원가입 폼
      */
     @GetMapping("/member/register")
     public String registerForm(Model model) {
-        model.addAttribute("memberRegisterDto", new MemberForm());
-        return "member/register";
+        model.addAttribute("registrationForm", new MemberRegistrationForm());
+        return "member/memberRegistrationForm";
     }
 
     /**
-     * 회원가입
+     * Member 회원가입
      */
     @PostMapping("/member/register")
-    public String register(@Valid MemberForm form) {
+    public String register(@Valid MemberRegistrationForm form) {
         memberService.RegisterMember(form);
         return "redirect:/members";
     }
@@ -67,6 +67,6 @@ public class MemberController {
     public String loginForm(Model model) {
         log.info("::: loginForm :::");
         model.addAttribute("loginForm", new LoginForm());
-        return "member/login";
+        return "member/loginForm";
     }
 }

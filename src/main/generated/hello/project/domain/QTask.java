@@ -11,58 +11,59 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QMember is a Querydsl query type for Member
+ * QTask is a Querydsl query type for Task
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QMember extends EntityPathBase<Member> {
+public class QTask extends EntityPathBase<Task> {
 
-    private static final long serialVersionUID = -101113613L;
+    private static final long serialVersionUID = 1805684254L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QMember member = new QMember("member1");
+    public static final QTask task = new QTask("task");
 
     public final QAuditableEntity _super = new QAuditableEntity(this);
 
+    public final StringPath content = createString("content");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> created_at = _super.created_at;
-
-    public final ListPath<Task, QTask> createdTaskList = this.<Task, QTask>createList("createdTaskList", Task.class, QTask.class, PathInits.DIRECT2);
-
-    public final StringPath email = createString("email");
 
     public final QHousehold household;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath password = createString("password");
+    public final QMember member;
 
-    public final ListPath<TaskMember, QTaskMember> taskList = this.<TaskMember, QTaskMember>createList("taskList", TaskMember.class, QTaskMember.class, PathInits.DIRECT2);
+    public final StringPath name = createString("name");
+
+    public final EnumPath<TaskStatus> status = createEnum("status", TaskStatus.class);
+
+    public final ListPath<TaskMember, QTaskMember> taskMemberList = this.<TaskMember, QTaskMember>createList("taskMemberList", TaskMember.class, QTaskMember.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;
 
-    public final StringPath username = createString("username");
-
-    public QMember(String variable) {
-        this(Member.class, forVariable(variable), INITS);
+    public QTask(String variable) {
+        this(Task.class, forVariable(variable), INITS);
     }
 
-    public QMember(Path<? extends Member> path) {
+    public QTask(Path<? extends Task> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QMember(PathMetadata metadata) {
+    public QTask(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QMember(PathMetadata metadata, PathInits inits) {
-        this(Member.class, metadata, inits);
+    public QTask(PathMetadata metadata, PathInits inits) {
+        this(Task.class, metadata, inits);
     }
 
-    public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
+    public QTask(Class<? extends Task> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.household = inits.isInitialized("household") ? new QHousehold(forProperty("household")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
     }
 
 }

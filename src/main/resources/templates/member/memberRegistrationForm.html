@@ -1,17 +1,15 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:replace="base :: common_header(~{::title},~{::link})">
   <title>Register</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
 
 <body>
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
 
   <!-- Form -->
-  <form action="/member/register" th:object="${memberRegisterDto}" method="post">
+  <form th:action="@{/member/register}" th:object="${registrationForm}" method="post">
 
     <p class="h2 mb-4">Register Form</p>
 

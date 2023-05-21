@@ -3,14 +3,20 @@ package hello.project.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
-public class Member {
+public class Member extends AuditableEntity {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="member_id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "household_id")
+    private Household household;
 
     private String email;
 
@@ -18,11 +24,23 @@ public class Member {
 
     private String password;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Task> createdTaskList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<TaskMember> taskList = new ArrayList<>();
+
     protected Member() {}
 
     public Member(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;
+    }
+
+    // :: 연관관계 바인딩 :: //
+    public void changeHousehold(Household household) {
+        this.household = household;
+        household.getMembers().add(this);
     }
 }

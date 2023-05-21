@@ -27,31 +27,6 @@ class MemberServiceTest {
     }
 
     @Test
-    void 로그인() {
-        //given
-        MemberForm memberForm = new MemberForm();
-        memberForm.setEmail("test@example.com");
-        memberForm.setUsername("testUser");
-        memberForm.setPassword("Test1234!");
-        Long savedMemberId = memberService.RegisterMember(memberForm);
-
-        //when
-        LoginForm loginForm = new LoginForm();
-        loginForm.setEmail("test@example.com");
-        loginForm.setPassword("Test1234!");
-        Optional<MemberDto> findMemberDto = memberService.loginMember(loginForm);
-        if (findMemberDto.isPresent()) {
-            MemberDto findMember = findMemberDto.get();
-        }
-        else {
-            System.out.println("::: debug ::: " + findMemberDto);
-        }
-
-        //then
-//        Assertions.assertThat(savedMemberId).isEqualTo(findMember.getId());
-    }
-
-    @Test
     void findMemberById() {
     }
 

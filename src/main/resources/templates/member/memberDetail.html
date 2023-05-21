@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+<head th:replace="base :: common_header(~{::title},~{::link})">
+    <title>Member Detail</title>
 </head>
+
+<style th:replace="base :: common_style"></style>
+
 <body>
 <div class="container min-vh-100 min-vw-100 d-flex justify-content-center align-items-center">
 

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>Household Create</title>
+</head>
+
+<body>
+<nav th:replace="~{base :: common_nav}"></nav>
+<div class="container min-vh-100 d-flex justify-content-center align-items-center">
+
+    <!-- Form -->
+    <form th:action="@{/household/create}" th:object="${householdForm}" method="post">
+
+        <p class="h2 mb-4">Create Household</p>
+
+        <!-- Household Name -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Household Name</label>
+            <input th:field="*{name}" id="name" name="name" type="text" class="form-control">
+        </div>
+
+        <!-- Button -->
+        <button type="submit" class="btn btn-primary">Create</button>
+
+    </form>
+    <!-- End Form -->
+</div>
+</body>
+</html>
