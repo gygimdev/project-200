@@ -15,24 +15,49 @@
 <div class="container min-vh-100 d-flex justify-content-center align-items-center normal-font-size">
 
     <!-- Task From -->
-    <form th:action="@{/task/create}" method="post" th:object="${taskForm}">
+        <form th:action="@{/task/update}" method="post" th:object="${taskUpdateForm}">
 
-        <p class="large-font-size mb-4">Create Task</p>
+        <p class="large-font-size mb-4">Task Detail</p>
+        <!-- Id -->
+            <input class="visually-hidden" type="text" th:field="*{id}" th:value="*{id}">
+
         <!-- Name -->
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input th:field="*{name}" th:value="*{name}" type="text" class="form-control" id="name">
         </div>
 
-        <!-- Content -->
+        <!-- DueDate -->
+        <div class="mb-3">
+            <label for="dueDate" class="form-label">Due Date</label>
+            <input th:value=*{dueDate} type="datetime-local" id="dueDate" name="dueDate">
+        </div>
 
+        <!-- Content -->
         <div class="mb-3">
             <label for="taskContent" class="form-label">Content</label>
             <textarea th:field="*{content}" class="form-control" id="taskContent" rows="3"></textarea>
         </div>
 
-        <button th:onclick="|location.href='@{/tasks}'|" type="button" class="btn btn-outline-primary normal-font-size">back</button>
-        <button type="submit" class="btn btn-primary normal-font-size">Create</button>
+        <!-- status -->
+        <div class="mb-3 btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="status" th:value="'TODO'" id="todoBtn" autocomplete="off" checked>
+            <label class="btn btn-outline-warning small-font-size" for="todoBtn">TODO</label>
+
+            <input type="radio" class="btn-check" name="status" th:value="'PROG'" id="progBtn" autocomplete="off">
+            <label class="btn btn-outline-success small-font-size" for="progBtn">PROG</label>
+
+            <input type="radio" class="btn-check" name="status" th:value="'DONE'" id="doneBtn" autocomplete="off">
+            <label class="btn btn-outline-primary small-font-size" for="doneBtn">DONE</label>
+
+            <input type="radio" class="btn-check" name="status" th:value="'HOLD'" id="holdBtn" autocomplete="off">
+            <label class="btn btn-outline-danger small-font-size" for="holdBtn">HOLD</label>
+        </div>
+
+        <div>
+            <button th:onclick="|location.href='@{/tasks}'|" type="button" class="btn btn-outline-primary normal-font-size">back</button>
+            <button type="submit" class="btn btn-primary normal-font-size">Update</button>
+        </div>
     </form>
 </div>
 </body>

@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .formLogin(login -> login
                         .loginPage("/member/login")
                         // 로그인 성공시 redirect 되는 페이지
-                        .defaultSuccessUrl("/households", true)
+                        .defaultSuccessUrl("/tasks", true)
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .permitAll()

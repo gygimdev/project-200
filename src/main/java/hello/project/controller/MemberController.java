@@ -1,8 +1,8 @@
 package hello.project.controller;
 
-import hello.project.dto.LoginForm;
-import hello.project.dto.MemberDto;
-import hello.project.dto.MemberRegistrationForm;
+import hello.project.dto.member.LoginForm;
+import hello.project.dto.member.MemberDto;
+import hello.project.dto.member.MemberRegistrationForm;
 import hello.project.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;

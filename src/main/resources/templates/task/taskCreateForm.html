@@ -15,17 +15,23 @@
 <div class="container min-vh-100 d-flex justify-content-center align-items-center normal-font-size">
 
     <!-- Task From -->
-    <form th:action="@{/task/create}" method="post" th:object="${taskForm}">
+    <form th:action="@{/task/create}" method="post" th:object="${taskCreateForm}">
 
         <p class="large-font-size mb-4">Create Task</p>
+
         <!-- Name -->
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input th:field="*{name}" th:value="*{name}" type="text" class="form-control" id="name">
         </div>
 
-        <!-- Content -->
+        <!-- DueDate -->
+        <div class="mb-3">
+            <label for="dueDate" class="form-label">Due Date</label>
+            <input th:field=*{dueDate} type="datetime-local" id="dueDate" name="dueDate">
+        </div>
 
+        <!-- Content -->
         <div class="mb-3">
             <label for="taskContent" class="form-label">Content</label>
             <textarea th:field="*{content}" class="form-control" id="taskContent" rows="3"></textarea>
