@@ -2,8 +2,8 @@ package hello.project;
 
 import hello.project.domain.Member;
 import hello.project.dto.HouseholdForm;
-import hello.project.dto.MemberRegistrationForm;
-import hello.project.dto.TaskForm;
+import hello.project.dto.member.MemberRegistrationForm;
+import hello.project.dto.task.TaskCreateForm;
 import hello.project.repository.HouseholdRepository;
 import hello.project.repository.MemberRepository;
 import hello.project.service.HouseholdService;
@@ -12,6 +12,8 @@ import hello.project.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -42,17 +44,21 @@ public class DataInitializer implements CommandLineRunner {
 
         // 테스크 생성
         String loginMemberEmail = findMember.getEmail();
-        TaskForm taskForm1 = new TaskForm();
-        taskForm1.setName("taskA");
-        taskForm1.setContent("taskAcontent");
-        TaskForm taskForm2 = new TaskForm();
-        taskForm2.setName("taskB");
-        taskForm2.setContent("taskBcontent");
-        TaskForm taskForm3 = new TaskForm();
-        taskForm3.setName("taskC");
-        taskForm3.setContent("taskCcontent");
-        taskService.createTask(loginMemberEmail, taskForm1);
-        taskService.createTask(loginMemberEmail, taskForm2);
-        taskService.createTask(loginMemberEmail, taskForm3);
+        LocalDateTime now = LocalDateTime.now();
+        TaskCreateForm taskCreateForm1 = new TaskCreateForm();
+        taskCreateForm1.setName("taskA");
+        taskCreateForm1.setContent("taskAcontent");
+        taskCreateForm1.setDueDate(now);
+        TaskCreateForm taskCreateForm2 = new TaskCreateForm();
+        taskCreateForm2.setName("taskB");
+        taskCreateForm2.setContent("taskBcontent");
+        taskCreateForm2.setDueDate(now);
+        TaskCreateForm taskCreateForm3 = new TaskCreateForm();
+        taskCreateForm3.setName("taskC");
+        taskCreateForm3.setContent("taskCcontent");
+        taskCreateForm3.setDueDate(now);
+        taskService.createTask(loginMemberEmail, taskCreateForm1);
+        taskService.createTask(loginMemberEmail, taskCreateForm2);
+        taskService.createTask(loginMemberEmail, taskCreateForm3);
     }
 }

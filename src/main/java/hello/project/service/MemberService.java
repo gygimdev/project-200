@@ -1,8 +1,8 @@
 package hello.project.service;
 
 import hello.project.domain.Member;
-import hello.project.dto.MemberDto;
-import hello.project.dto.MemberRegistrationForm;
+import hello.project.dto.member.MemberDto;
+import hello.project.dto.member.MemberRegistrationForm;
 import hello.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

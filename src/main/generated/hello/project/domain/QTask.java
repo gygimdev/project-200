@@ -29,6 +29,8 @@ public class QTask extends EntityPathBase<Task> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> created_at = _super.created_at;
 
+    public final DateTimePath<java.time.LocalDateTime> dueDate = createDateTime("dueDate", java.time.LocalDateTime.class);
+
     public final QHousehold household;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
