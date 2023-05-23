@@ -43,9 +43,16 @@
                 <!-- 바디 -->
                 <tbody>
                 <tr class="align-middle" style="height: 50px; cursor: pointer;" th:each="task : ${tasks}" th:onclick="|location.href='@{task/{taskId}(taskId=${task.id})}'|">
+
                     <td>
-                        <span class="badge text-bg-warning" th:text="${task.status}">테스크 상태</span>
+                        <th:block th:switch="${task.status}">
+                            <span th:case="TODO" class="badge text-bg-warning" th:text="${task.status}"></span>
+                            <span th:case="PROG" class="badge text-bg-success" th:text="${task.status}"></span>
+                            <span th:case="DONE" class="badge text-bg-primary" th:text="${task.status}"></span>
+                            <span th:case="HOLD" class="badge text-bg-danger" th:text="${task.status}"></span>
+                        </th:block>
                     </td>
+
                     <td class="text-center">
                         <span th:text="${task.name}">제목은 여기에 들어갑니다.</span>
                     </td>

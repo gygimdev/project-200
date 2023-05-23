@@ -1,6 +1,7 @@
 package hello.project.controller;
 
 import hello.project.common.CurrentMemberDetail;
+import hello.project.domain.TaskStatus;
 import hello.project.dto.task.TaskDto;
 import hello.project.dto.task.TaskCreateForm;
 import hello.project.dto.task.TaskListForm;
@@ -28,6 +29,11 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    /**
+     * Task 정보 업데이트
+     * @param form TsakUpdateForm
+     * @return
+     */
     @PostMapping("/task/update")
     public String taskUpdateView(@Valid TaskUpdateForm form){
         log.info("컨트롤러 아이디 {}", form.getId());
@@ -48,6 +54,9 @@ public class TaskController {
         TaskUpdateForm form = new TaskUpdateForm(task);
         log.info("::::아이디넘겨주기 {}", form.getId());
         model.addAttribute("taskUpdateForm", form);
+
+        model.addAttribute("statusTypes", TaskStatus.values());
+
         return "task/taskUpdateForm";
     }
 
