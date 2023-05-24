@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -20,6 +22,17 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    /**
+     * 맴버가 가정을 가지고 있는지 체크
+     */
+    public boolean checkMemberHasHousehold(String loginMemberEmail) {
+        Member findMember = memberRepository.findByEmail(loginMemberEmail)
+                .orElseThrow(() -> new NoSuchElementException("맴버가 존재하지 않습니다."));
+
+        Long count = memberRepository.countMemberHousehold(findMember.getEmail());
+        return count > 0;
+    }
 
     /**
      * 서비스 회원상세
@@ -52,19 +65,26 @@ public class MemberService {
     }
 
     /**
-     * 회원가입
+     * Member 회원가입
      */
     @Transactional
-    public Long RegisterMember(MemberRegistrationForm form) {
-        String email = form.getEmail();
-        String username = form.getUsername();
-        String plainText = form.getPassword();
+    public void RegisterMember(MemberDto dto, String password) {
+        String email = dto.getEmail();
+        String username = dto.getUsername();
 
-        String encodedPassword = createEncodePassword(plainText);
+        checkDuplicateMemberEmail(email);
+
+        String encodedPassword = createEncodePassword(password);
 
         Member member = new Member(email, username, encodedPassword);
         memberRepository.save(member);
-        return member.getId();
+    }
+
+    private void checkDuplicateMemberEmail(String email) {
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+        if(findMember.isPresent()) {
+            throw new IllegalStateException("이미 존재하는 유저입니다.");
+        }
     }
 
     /**

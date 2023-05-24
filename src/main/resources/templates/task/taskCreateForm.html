@@ -19,16 +19,22 @@
 
         <p class="large-font-size mb-4">Create Task</p>
 
-        <!-- Name -->
+        <!-- Task 이름 -->
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input th:field="*{name}" th:value="*{name}" type="text" class="form-control" id="name">
+
+            <!-- 에러메세지 -->
+            <p class="text-danger mt-2 small-font-size" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" />
         </div>
 
         <!-- DueDate -->
         <div class="mb-3">
             <label for="dueDate" class="form-label">Due Date</label>
             <input th:field=*{dueDate} type="datetime-local" id="dueDate" name="dueDate">
+
+            <!-- 에러메세지 -->
+            <p class="text-danger mt-2 small-font-size" th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" />
         </div>
 
         <!-- Content -->

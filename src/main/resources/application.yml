@@ -1,4 +1,7 @@
 spring:
+  messages:
+    basename: messages, errors
+    fallback-to-system-locale: false
   output:
     ansi:
       enabled: always
@@ -6,10 +9,11 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+  # H2 데이터베이스
   dataSource:
-    url: jdbc:mysql://localhost:3306/project
-    username: root
-    password: c^W2p#o/A9h*m
+    url: jdbc:h2:tcp://localhost/~/project-200
+    username: sa
+    password:
 
 # Logging
 logging:

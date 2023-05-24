@@ -15,14 +15,14 @@
     <!-- From -->
     <form action="/member/login" method="post" th:object="${loginForm}">
 
-        <p class="h2 mb-4">Login</p>
+        <p class="h2 mb-4" th:text="#{Login}">Login</p>
         <div th:if="${param.error}">
             Invalid username and password.
         </div>
 
         <!-- Email -->
         <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
+            <label for="email" class="form-label" th:text="#{email.address}">Email address</label>
             <input th:field="*{email}" th:value="*{email}" type="email" class="form-control" id="email" aria-describedby="emailHelp">
         </div>
 
@@ -32,8 +32,10 @@
             <input th:field="*{password}" type="password" class="form-control" id="exampleInputPassword1">
         </div>
 
-        <button type="submit" class="btn btn-primary">Login</button>
-<!--        <button type="" class="btn btn-primary">Sign in</button>-->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button th:onclick="|location.href='@{/member/register}'|" type="button" class="text-primary btn btn-outline-light small-font-size">Create Account</button>
+        </div>
     </form>
 </div>
 </body>
