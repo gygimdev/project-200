@@ -7,6 +7,7 @@ import hello.project.dto.HouseholdDto;
 import hello.project.dto.HouseholdForm;
 import hello.project.security.MemberDetails;
 import hello.project.service.HouseholdService;
+import hello.project.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ import java.util.List;
 public class HouseholdController {
 
     private final HouseholdService householdService;
-
+    private final MemberService memberService;
 
     /**
      * 맴버가 가정 합류
@@ -63,7 +64,15 @@ public class HouseholdController {
      * 가정 리스트 조회
      */
     @GetMapping("/households")
-    public String householdListView(Model model) {
+    public String householdListView(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+        String loginUserEmail = memberDetails.getUsername();
+
+        // 맴버가 이미 가정에 배정되어 있으면 Task 리스트 화면으로
+        boolean flag = memberService.checkMemberHasHousehold(loginUserEmail);
+        if(flag) {
+            return "redirect:/tasks";
+        }
+
         List<HouseholdDto> householdsList = householdService.getHouseholdsList();
         model.addAttribute("households", householdsList);
         return "household/householdList";

@@ -55,8 +55,12 @@ public class MemberController {
      */
     @PostMapping("/member/register")
     public String register(@Valid MemberRegistrationForm form) {
-        memberService.RegisterMember(form);
-        return "redirect:/members";
+        log.info("::: registerForm :::");
+        MemberDto dto = new MemberDto();
+        dto.setEmail(form.getEmail());
+        dto.setUsername(form.getUsername());
+        memberService.RegisterMember(dto, form.getPassword());
+        return "redirect:/households";
     }
 
     /**

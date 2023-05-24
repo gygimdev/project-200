@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,11 +79,26 @@ public class TaskController {
      * @return 리다이랙트: /tasks
      */
     @PostMapping("/task/create")
-    public String createTaskView(@AuthenticationPrincipal MemberDetails memberDetails, @Valid TaskCreateForm form) {
+    public String createTaskView(@AuthenticationPrincipal MemberDetails memberDetails, @Validated TaskCreateForm form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            // 에러 메시지를 콘솔에 출력
+            bindingResult.getAllErrors()
+                    .forEach(error -> {
+                        log.info(":::: 오브젝트 이름: {}", error.getObjectName());
+                        log.info(":::: 에러 필드: {}", error.getCode());
+                        log.info(":::: 에러 필드: {}", error.getCodes());
+                    });
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "/task/taskCreateForm";
+        }
         String loginMemberEmail = CurrentMemberDetail.getLoginMemberEmail(memberDetails);
         taskService.createTask(loginMemberEmail, form);
         return "redirect:/tasks";
     }
+
 
     /**
      * Task 리스트 조회

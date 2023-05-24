@@ -2,6 +2,7 @@ package hello.project;
 
 import hello.project.domain.Member;
 import hello.project.dto.HouseholdForm;
+import hello.project.dto.member.MemberDto;
 import hello.project.dto.member.MemberRegistrationForm;
 import hello.project.dto.task.TaskCreateForm;
 import hello.project.repository.HouseholdRepository;
@@ -22,20 +23,18 @@ public class DataInitializer implements CommandLineRunner {
     private final TaskService taskService;
 
     private final MemberRepository memberRepository;
-    private final HouseholdRepository householdRepository;
     private final HouseholdService householdService;
 
     @Override
     public void run(String... args) throws Exception {
 
-
         // 맴버 생성
-        MemberRegistrationForm memberForm = new MemberRegistrationForm();
-        memberForm.setEmail("gygim.dev@gmail.com");
-        memberForm.setPassword("Test1234!");
-        Long findMemberId = memberService.RegisterMember(memberForm);
-        Member findMember = memberRepository.findById(findMemberId)
-                .orElseThrow(RuntimeException::new);
+        String password = "Test1234!";
+        String email = "gygim.dev@gmail.com";
+        MemberDto dto = new MemberDto();
+        dto.setEmail(email);
+        memberService.RegisterMember(dto, password);
+        Member findMember = memberRepository.findByEmail(email).get();
 
         // 가정 생성
         HouseholdForm householdForm = new HouseholdForm();

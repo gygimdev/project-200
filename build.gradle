@@ -29,12 +29,16 @@ dependencies {
 
 	// Spring security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-//  Temporary explicit version to fix Thymeleaf bug
+	//  Temporary explicit version to fix Thymeleaf bug
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 	implementation 'org.springframework.security:spring-security-test'
 
-	// MySQL
+	// Database
+	// Mysql
 	implementation 'com.mysql:mysql-connector-j'
+	// H2 database
+	developmentOnly 'com.h2database:h2'
+
 
 
 	// QueryDsl 패키지를 정의
