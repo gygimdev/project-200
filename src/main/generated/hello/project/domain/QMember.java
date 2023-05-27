@@ -39,6 +39,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<TaskMember, QTaskMember> taskList = this.<TaskMember, QTaskMember>createList("taskList", TaskMember.class, QTaskMember.class, PathInits.DIRECT2);
 
+    public final EnumPath<Timezone> timezone = createEnum("timezone", Timezone.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;
 

@@ -3,6 +3,7 @@ package hello.project.service;
 import hello.project.domain.Household;
 import hello.project.domain.Member;
 import hello.project.domain.Task;
+import hello.project.domain.TaskSearchCond;
 import hello.project.dto.task.TaskDto;
 import hello.project.dto.task.TaskCreateForm;
 import hello.project.repository.MemberRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -24,6 +26,17 @@ import java.util.stream.Collectors;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final MemberRepository memberRepository;
+
+    public List<TaskDto> searchTaskHistory(TaskSearchCond cond) {
+        List<Task> tasks = taskRepository.startQuery(cond);
+        List<TaskDto> dtos = new ArrayList<>();
+        for (Task task : tasks) {
+            TaskDto dto = new TaskDto(task);
+            dtos.add(dto);
+        }
+        return dtos;
+
+    }
 
     @Transactional
     public void updateTask(TaskDto dto) {
@@ -47,18 +60,20 @@ public class TaskService {
     /**
      * Task 생성 비즈니스 로직
      * @param loginMemberEmail 로그인된 회원 이메일
-     * @param taskCreateForm Task 생성 폼 정보
+     * @param dto TaskDto
+     *
      */
     @Transactional
-    public void createTask(String loginMemberEmail, TaskCreateForm taskCreateForm) {
+    public void createTask(String loginMemberEmail, TaskDto dto) {
         // 이메일로 회원 조회
         Member findMember = memberRepository.findByEmail(loginMemberEmail)
                 .orElseThrow(() -> new NoSuchElementException("맴버가 존재하지 않습니다."));
+
+        // 가정 조회
         Household household = findMember.getHousehold();
-        String name = taskCreateForm.getName();
-        LocalDateTime dueDate = taskCreateForm.getDueDate();
-        String content = taskCreateForm.getContent();
-        Task task = new Task(name, content, dueDate, findMember, household);
+
+        // 테스크 생성
+        Task task = new Task(dto, findMember, household);
         taskRepository.save(task);
     }
 

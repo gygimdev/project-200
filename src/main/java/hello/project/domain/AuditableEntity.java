@@ -6,6 +6,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @MappedSuperclass
 public class AuditableEntity {
@@ -16,13 +17,13 @@ public class AuditableEntity {
 
     @PrePersist
     public void prePersist() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
         this.created_at = now;
         this.updated_at = now;
     }
 
     @PreUpdate
     public void preUpdate() {
-        this.updated_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now(ZoneOffset.UTC);
     }
 }

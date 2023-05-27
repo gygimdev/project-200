@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>TaskList</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+
+<body>
+<!-- 네이게이션 바 -->
+<nav th:replace="~{base :: common_nav}"></nav>
+
+<div class="container min-vh-100 min-vw-100 d-flex justify-content-center align-items-center normal-font-size">
+    <div class="w-100">
+
+        <!-- 테이블 제목 -->
+
+        <div class="ms-4 mb-4 d-flex align-items-center">
+            <span class="large-font-size">Task History</span>
+        </div>
+
+        <!-- 검색 창 -->
+        <form th:action="@{/task/history}" method="get" class="d-flex ms-4 mb-4" role="search">
+            <div>
+                <!-- 날짜 -->
+                <div class="mb-2">
+                    <span>Range:</span>
+                    <input type="date" id="start" name="start"  min="2018-01-01" max="2023-12-31"/>
+                    <span> ~ </span>
+                    <input type="date" id="end" name="end"  min="2018-01-01" max="2023-12-31"/>
+                </div>
+                <!-- 이름 -->
+                <div class="d-flex">
+                    <input class="form-control me-2" name="keyword" type="search" placeholder="Task name" aria-label="Search">
+                    <button class="btn btn-outline-success me-4" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- 테이블 시작 -->
+        <table class="table table-hover">
+
+            <!-- 헤드 -->
+            <thead class="table-light">
+            <tr class="small-font-size">
+                <th scope="col" class="col-1">
+                    <span>Status</span>
+                </th>
+                <th scope="col">
+                    <span>Task</span>
+                </th>
+                <th scope="col">
+                    <span>Time</span>
+                </th>
+            </tr>
+            </thead>
+
+            <!-- 바디 -->
+            <tbody>
+            <tr class="align-middle" style="height: 50px; cursor: pointer;" th:each="task : ${tasks}" th:onclick="|location.href='@{task/{taskId}(taskId=${task.id})}'|">
+
+                <td>
+                    <th:block th:switch="${task.status}">
+                        <span th:case="TODO" class="badge text-bg-warning" th:text="${task.status}"></span>
+                        <span th:case="PROG" class="badge text-bg-success" th:text="${task.status}"></span>
+                        <span th:case="DONE" class="badge text-bg-primary" th:text="${task.status}"></span>
+                        <span th:case="HOLD" class="badge text-bg-danger" th:text="${task.status}"></span>
+                    </th:block>
+                </td>
+
+                <td class="text-center">
+                    <span th:text="${task.name}">제목은 여기에 들어갑니다.</span>
+                </td>
+                <td>
+                        <span class="small-font-size">
+                            <span th:text="${task.dueDate}"></span>
+                        </span>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+</body>
+</html>

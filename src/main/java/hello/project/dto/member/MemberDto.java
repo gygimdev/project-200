@@ -1,5 +1,7 @@
 package hello.project.dto.member;
 
+import hello.project.domain.Language;
+import hello.project.domain.Timezone;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -8,9 +10,9 @@ public class MemberDto {
 
     private Long id;
 
-    @NotEmpty
     private String email;
 
-    @NotEmpty
     private String username;
+
+    private Timezone timezone;
 }

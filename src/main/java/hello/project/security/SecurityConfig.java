@@ -24,7 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable()
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/css/*", "/js/*", "https://unpkg.com/*", "/member/register").permitAll()
+                        .requestMatchers("/css/*", "/js/*", "https://unpkg.com/*", "/member/register", "/api/*", "/error", "/error/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login

@@ -1,6 +1,7 @@
 package hello.project.controller;
 
 import hello.project.common.CurrentMemberDetail;
+import hello.project.domain.TaskSearchForm;
 import hello.project.domain.TaskStatus;
 import hello.project.dto.task.TaskDto;
 import hello.project.dto.task.TaskCreateForm;
@@ -8,7 +9,6 @@ import hello.project.dto.task.TaskListForm;
 import hello.project.dto.task.TaskUpdateForm;
 import hello.project.security.MemberDetails;
 import hello.project.service.TaskService;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,18 +34,31 @@ public class TaskController {
     }
 
     /**
+     * Task 내역(history)
+     */
+    @GetMapping("/task/history")
+    public String taskHistoryView(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) LocalDate start,
+            @RequestParam(required = false) LocalDate end,
+            TaskSearchForm form, Model model) {
+
+//        List<TaskDto> tasks = taskService.searchTaskHistory(taskSearchCond);
+//        model.addAttribute("tasks", tasks);
+        return "task/taskHistory";
+    }
+
+    /**
      * Task 정보 업데이트
      * @param form TsakUpdateForm
      * @return
      */
     @PostMapping("/task/update")
-    public String taskUpdateView(@Valid TaskUpdateForm form){
-        log.info("컨트롤러 아이디 {}", form.getId());
+    public String taskUpdateView(@Validated TaskUpdateForm form){
         TaskDto dto = new TaskDto(form);
         taskService.updateTask(dto);
         return "redirect:/tasks";
     }
-
 
     /**
      * Task 디테일 불러오기 후 업데이트
@@ -54,7 +69,6 @@ public class TaskController {
     public String taskDetailView(@PathVariable Long taskId, Model model){
         TaskDto task = taskService.getTaskDetail(taskId);
         TaskUpdateForm form = new TaskUpdateForm(task);
-        log.info("::::아이디넘겨주기 {}", form.getId());
         model.addAttribute("taskUpdateForm", form);
 
         model.addAttribute("statusTypes", TaskStatus.values());
@@ -82,20 +96,16 @@ public class TaskController {
     public String createTaskView(@AuthenticationPrincipal MemberDetails memberDetails, @Validated TaskCreateForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            // 에러 메시지를 콘솔에 출력
-            bindingResult.getAllErrors()
-                    .forEach(error -> {
-                        log.info(":::: 오브젝트 이름: {}", error.getObjectName());
-                        log.info(":::: 에러 필드: {}", error.getCode());
-                        log.info(":::: 에러 필드: {}", error.getCodes());
-                    });
-        }
-
-        if (bindingResult.hasErrors()) {
             return "/task/taskCreateForm";
         }
+
+        //로그인 정보
         String loginMemberEmail = CurrentMemberDetail.getLoginMemberEmail(memberDetails);
-        taskService.createTask(loginMemberEmail, form);
+
+        // TaskDto 로 변환
+        TaskDto dto = new TaskDto(form);
+
+        taskService.createTask(loginMemberEmail, dto);
         return "redirect:/tasks";
     }
 

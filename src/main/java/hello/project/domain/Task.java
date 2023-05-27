@@ -38,17 +38,39 @@ public class Task extends AuditableEntity {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<TaskMember> taskMemberList;
 
-    public Task(String name, String content, LocalDateTime dueDate, Member member, Household household) {
-        this.name = name;
-        this.content = content;
-        this.dueDate = dueDate;
-        this.member = member;
+//    public Task(String name, String content, LocalDateTime dueDate, Member member, Household household) {
+//        this.name = name;
+//        this.content = content;
+//        this.dueDate = dueDate;
+//        this.member = member;
+//        this.household = household;
+//
+//        member.getCreatedTaskList().add(this);
+//        household.getTasks().add(this);
+//    }
+
+
+    /** Task 생성
+     * @param dto      : TaskDto
+     * @param member   : Member(회원)
+     * @param household: Household(가정)
+     */
+    public Task(TaskDto dto, Member member, Household household) {
+        this.name = dto.getName();
+        this.content = dto.getContent();
+        this.dueDate = dto.getDueDate();
+        this.member =  member;
         this.household = household;
 
         member.getCreatedTaskList().add(this);
         household.getTasks().add(this);
     }
 
+    /** Task 업데이트
+     *
+     * @param dto
+     * @return
+     */
     public Task updateTask(TaskDto dto) {
         this.name = dto.getName();
         this.content = dto.getContent();
@@ -56,4 +78,6 @@ public class Task extends AuditableEntity {
         this.status = dto.getStatus();
         return this;
     }
+
+
 }
