@@ -8,7 +8,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   # MySQL 데이터베이스
   dataSource:
     url: jdbc:mysql://localhost:3306/project

@@ -2,12 +2,10 @@ package hello.project.dto.task;
 
 import hello.project.domain.Task;
 import hello.project.domain.TaskStatus;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Data
 public class TaskDto {
@@ -18,8 +16,19 @@ public class TaskDto {
     TaskStatus status;
     LocalDateTime dueDate;
 
-    /**
-     * 업데이트 폼을 DTO 로 변환
+
+    /** TaskCreateForm 을 TaskDto 로 변환
+     * TaskCreateForm -> TaskDto
+     *
+     */
+    public TaskDto(TaskCreateForm form) {
+        this.name = form.getName();
+        this.content = form.getContent();
+        this.dueDate = form.getDueDate();
+    }
+
+    /** TaskUpdateForm 을 TaskDto 로 변환
+     * TaskUpdateForm -> TaskDto
      * @param form 업데이트폼
      */
     public TaskDto(TaskUpdateForm form) {
@@ -27,7 +36,7 @@ public class TaskDto {
         this.name = form.getName();
         this.content = form.getContent();
         this.status = TaskStatus.valueOf(form.getStatus());
-        this.dueDate = LocalDateTime.parse(form.getDueDate());
+        this.dueDate = form.getDueDate();
     }
 
     public TaskDto(Task task) {

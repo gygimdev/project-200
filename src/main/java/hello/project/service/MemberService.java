@@ -1,6 +1,8 @@
 package hello.project.service;
 
+import hello.project.domain.Language;
 import hello.project.domain.Member;
+import hello.project.domain.Timezone;
 import hello.project.dto.member.MemberDto;
 import hello.project.dto.member.MemberRegistrationForm;
 import hello.project.repository.MemberRepository;
@@ -71,12 +73,12 @@ public class MemberService {
     public void RegisterMember(MemberDto dto, String password) {
         String email = dto.getEmail();
         String username = dto.getUsername();
+        Timezone timezone = dto.getTimezone();
 
         checkDuplicateMemberEmail(email);
-
         String encodedPassword = createEncodePassword(password);
 
-        Member member = new Member(email, username, encodedPassword);
+        Member member = new Member(email, username, encodedPassword, timezone);
         memberRepository.save(member);
     }
 

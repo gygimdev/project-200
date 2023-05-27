@@ -1,4 +1,8 @@
 spring:
+#  profiles:
+#    active: stage
+#  jackson:
+#    time-zone: UTC
   messages:
     basename: messages, errors
     fallback-to-system-locale: false
@@ -6,7 +10,7 @@ spring:
     ansi:
       enabled: always
   jpa:
-    show-sql: true
+    show_sql: true
     hibernate:
       ddl-auto: create
   # H2 데이터베이스

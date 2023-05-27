@@ -3,9 +3,8 @@ package hello.project;
 import hello.project.domain.Member;
 import hello.project.dto.HouseholdForm;
 import hello.project.dto.member.MemberDto;
-import hello.project.dto.member.MemberRegistrationForm;
 import hello.project.dto.task.TaskCreateForm;
-import hello.project.repository.HouseholdRepository;
+import hello.project.dto.task.TaskDto;
 import hello.project.repository.MemberRepository;
 import hello.project.service.HouseholdService;
 import hello.project.service.MemberService;
@@ -44,20 +43,27 @@ public class DataInitializer implements CommandLineRunner {
         // 테스크 생성
         String loginMemberEmail = findMember.getEmail();
         LocalDateTime now = LocalDateTime.now();
+
         TaskCreateForm taskCreateForm1 = new TaskCreateForm();
         taskCreateForm1.setName("taskA");
         taskCreateForm1.setContent("taskAcontent");
         taskCreateForm1.setDueDate(now);
+        TaskDto dto1 = new TaskDto(taskCreateForm1);
+
         TaskCreateForm taskCreateForm2 = new TaskCreateForm();
         taskCreateForm2.setName("taskB");
         taskCreateForm2.setContent("taskBcontent");
         taskCreateForm2.setDueDate(now);
+        TaskDto dto2 = new TaskDto(taskCreateForm2);
+
         TaskCreateForm taskCreateForm3 = new TaskCreateForm();
         taskCreateForm3.setName("taskC");
         taskCreateForm3.setContent("taskCcontent");
         taskCreateForm3.setDueDate(now);
-        taskService.createTask(loginMemberEmail, taskCreateForm1);
-        taskService.createTask(loginMemberEmail, taskCreateForm2);
-        taskService.createTask(loginMemberEmail, taskCreateForm3);
+        TaskDto dto3 = new TaskDto(taskCreateForm3);
+
+        taskService.createTask(loginMemberEmail, dto1);
+        taskService.createTask(loginMemberEmail, dto2);
+        taskService.createTask(loginMemberEmail, dto3);
     }
 }

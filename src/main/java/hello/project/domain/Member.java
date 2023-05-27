@@ -24,6 +24,9 @@ public class Member extends AuditableEntity {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Timezone timezone;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Task> createdTaskList = new ArrayList<>();
 
@@ -32,10 +35,11 @@ public class Member extends AuditableEntity {
 
     protected Member() {}
 
-    public Member(String email, String username, String password) {
+    public Member(String email, String username, String password, Timezone timezone) {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.timezone = timezone;
     }
 
     // :: 연관관계 바인딩 :: //

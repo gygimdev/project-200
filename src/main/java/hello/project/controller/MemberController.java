@@ -1,5 +1,7 @@
 package hello.project.controller;
 
+import hello.project.domain.Language;
+import hello.project.domain.Timezone;
 import hello.project.dto.member.LoginForm;
 import hello.project.dto.member.MemberDto;
 import hello.project.dto.member.MemberRegistrationForm;
@@ -9,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -19,17 +24,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController {
 
+    /** Language Enum 등록
+     * thymeleaf 에서 언어코드에 접근 할 수 있게 컨트롤러에 등록한다.
+     * @return 언어코드의 배열
+     */
+    @ModelAttribute("timezones")
+    public Timezone[] getTimezones() {
+        return Timezone.values();
+    }
+
     private final MemberService memberService;
 
     /**
      * 회원 상세
      */
-//    @GetMapping("/member/{memberId}")
-//    public String memberDetailView(@PathVariable Long memberId, Model model) {
-//        MemberDetailForm memberForm = memberService.getMemberDetail(memberId);
-//        model.addAttribute("member", memberForm);
-//        return "member/memberDetail";
-//    }
 
     /**
      * Member 회원 리스트 조회
@@ -46,7 +54,7 @@ public class MemberController {
      */
     @GetMapping("/member/register")
     public String registerForm(Model model) {
-        model.addAttribute("registrationForm", new MemberRegistrationForm());
+        model.addAttribute("memberRegistrationForm", new MemberRegistrationForm());
         return "member/memberRegistrationForm";
     }
 
@@ -54,13 +62,24 @@ public class MemberController {
      * Member 회원가입
      */
     @PostMapping("/member/register")
-    public String register(@Valid MemberRegistrationForm form) {
-        log.info("::: registerForm :::");
+    public String register(@Validated  @ModelAttribute MemberRegistrationForm form, BindingResult bidingResult) {
+        String email = form.getEmail();
+
+        if (bidingResult.hasErrors()) {
+            System.out.println("bidingResult = " + bidingResult.getAllErrors());
+
+            return "member/memberRegistrationForm";
+        }
+
         MemberDto dto = new MemberDto();
         dto.setEmail(form.getEmail());
         dto.setUsername(form.getUsername());
-        memberService.RegisterMember(dto, form.getPassword());
-        return "redirect:/households";
+        dto.setTimezone(form.getTimezone());
+
+        String password = form.getPassword();
+        memberService.RegisterMember(dto, password);
+
+        return "redirect:/member/loginForm";
     }
 
     /**
