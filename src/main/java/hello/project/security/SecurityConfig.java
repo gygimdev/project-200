@@ -44,7 +44,11 @@ public class SecurityConfig {
                         .expiredUrl("/login?expire")
                         .and()
                     .and()
-                .logout(withDefaults());
+                .logout()
+                    .logoutUrl("/logout") // 로그아웃 URL 설정
+                    .logoutSuccessUrl("/login?logout") // 로그아웃 후 리다이렉트할 URL 설정
+                    .invalidateHttpSession(true) // HttpSession 무효화
+                    .deleteCookies("JSESSIONID"); // 세션과 관련된 쿠키 삭제
 
         return http.build();
     }

@@ -23,6 +23,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
+    private final MemberService memberService;
 
     /** Language Enum 등록
      * thymeleaf 에서 언어코드에 접근 할 수 있게 컨트롤러에 등록한다.
@@ -32,12 +33,6 @@ public class MemberController {
     public Timezone[] getTimezones() {
         return Timezone.values();
     }
-
-    private final MemberService memberService;
-
-    /**
-     * 회원 상세
-     */
 
     /**
      * Member 회원 리스트 조회
@@ -82,8 +77,7 @@ public class MemberController {
         return "redirect:/member/loginForm";
     }
 
-    /**
-     * 로그인 폼
+    /** 로그인
      */
     @GetMapping("/member/login")
     public String loginForm(Model model) {
@@ -91,4 +85,10 @@ public class MemberController {
         model.addAttribute("loginForm", new LoginForm());
         return "member/loginForm";
     }
+
+    /** 로그아웃
+     *
+     */
+
+
 }
