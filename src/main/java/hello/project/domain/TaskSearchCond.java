@@ -15,17 +15,30 @@ public class TaskSearchCond {
     private LocalDateTime end;
 
     public TaskSearchCond(TaskSearchForm form) {
-        log.info("::::TaskSearchCond - form.getStart(): {}", form.getStart());
-        this.keyword = form.getKeyword();
-        if (form.getStart() != null) {
+        String keyword = form.getKeyword();
+        String start = form.getStart();
+        String end = form.getEnd();
+
+        if(keyword == null ||keyword.isEmpty()) {
+            this.keyword = null;
+        } else {
+            this.keyword = keyword;
+        }
+
+        if (start == null || start.isEmpty()) {
+            this.start = null;
+        } else {
             this.start = convertStrToDateTime(form.getStart());
         }
-        if (form.getEnd() != null) {
-            this.end = convertStrToDateTime(form.getEnd());
+        if (end == null || end.isEmpty()) {
+            this.start = null;
+        } else {
+            this.start = convertStrToDateTime(form.getEnd());
         }
     }
 
-    private static LocalDateTime convertStrToDateTime(String plainText) {
+    private LocalDateTime convertStrToDateTime(String plainText) {
+        log.info("debug3");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(plainText, formatter).atStartOfDay();
     }

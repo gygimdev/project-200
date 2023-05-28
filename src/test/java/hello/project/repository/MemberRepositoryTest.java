@@ -1,23 +1,27 @@
 package hello.project.repository;
 
-import hello.project.service.MemberService;
+import hello.project.domain.Member;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class MemberRepositoryTest {
-
+class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
 
-    @Autowired
-    MemberService memberService;
-
     @Test
-    public void 가입된회원검증() {
+    public void test() {
+
+        String email = "gygim.dev@gmail.com";
+        Member findMember = memberRepository.findByEmail(email).get();
+        String code = findMember.getTimezone().getTimeCode();
+        System.out.println("code = " + code);
     }
-
-
 }

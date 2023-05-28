@@ -31,6 +31,7 @@
         <div class="mb-3">
             <label for="dueDate" class="form-label">Due Date</label>
             <input th:value=*{dueDate} type="datetime-local" id="dueDate" name="dueDate">
+            <p class="text-danger mt-2 small-font-size" th:errors="*{dueDate}" />
         </div>
 
         <!-- Content -->

@@ -1,24 +1,26 @@
 package hello.project.dto.task;
 
+import hello.project.domain.Member;
 import hello.project.domain.Task;
 import hello.project.domain.TaskStatus;
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 
 @Data
 public class TaskDto {
 
-    Long id;
-    String name;
-    String content;
-    TaskStatus status;
-    LocalDateTime dueDate;
+    private Long id;
+    private String name;
+    private String content;
+    private TaskStatus status;
+    private LocalDateTime dueDate;
 
 
-    /** TaskCreateForm 을 TaskDto 로 변환
-     * TaskCreateForm -> TaskDto
+    /** Task 생성
+     * Task 생성시 받은 폼(TaskCreateForm) 데이터를 Dto 로 변환한다.
      *
      */
     public TaskDto(TaskCreateForm form) {
@@ -27,8 +29,8 @@ public class TaskDto {
         this.dueDate = form.getDueDate();
     }
 
-    /** TaskUpdateForm 을 TaskDto 로 변환
-     * TaskUpdateForm -> TaskDto
+    /** Task 업데이트
+     * Task 업데이트시 받은 폼(TaskUpdateForm) 데이터를 Dto 로 변환한다.
      * @param form 업데이트폼
      */
     public TaskDto(TaskUpdateForm form) {
@@ -39,6 +41,10 @@ public class TaskDto {
         this.dueDate = form.getDueDate();
     }
 
+    /** Task 조회
+     * db 에서 조회한 데이터를 dto 로 변환한다.
+     * @param task
+     */
     public TaskDto(Task task) {
         this.id = task.getId();
         this.name = task.getName();

@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,6 +29,9 @@ public class TaskService {
     private final MemberRepository memberRepository;
 
     public List<TaskDto> searchTaskHistory(TaskSearchCond cond) {
+        log.info("keyword: {}", cond.getKeyword());
+        log.info("start: {}", cond.getStart());
+        log.info("end: {}", cond.getEnd());
         List<Task> tasks = taskRepository.startQuery(cond);
         List<TaskDto> dtos = new ArrayList<>();
         for (Task task : tasks) {
@@ -39,12 +43,12 @@ public class TaskService {
     }
 
     @Transactional
-    public void updateTask(TaskDto dto) {
+    public void updateTask(TaskDto dto, Member loginMember) {
         Long taskId = dto.getId();
         Task findTask = taskRepository.findById(taskId)
                 .orElseThrow(() -> new NoSuchElementException("해당 작업이 존재하지 않습니다."));
 
-        Task updatedTask = findTask.updateTask(dto);
+        Task updatedTask = findTask.updateTask(dto, loginMember);
         taskRepository.save(updatedTask);
     }
 
@@ -84,9 +88,14 @@ public class TaskService {
      * @return
      */
     public List<TaskDto> getTaskList(String loginMemberEmail) {
+        Member findMember = memberRepository.findByEmail(loginMemberEmail)
+                .orElseThrow(() -> new NoSuchElementException("맴버가 존재하지 않습니다."));
+
         List<Task> tasks = taskRepository.findAllTaskBelongMemberHousehold(loginMemberEmail);
-        return tasks.stream()
+
+        List<TaskDto> dtos = tasks.stream()
                 .map(TaskDto::new)
                 .collect(Collectors.toList());
+        return dtos;
     }
 }

@@ -16,4 +16,12 @@ public class TaskCreateForm {
 
     @NotNull
     private LocalDateTime dueDate;
+
+    public TaskCreateForm() {}
+
+    public TaskCreateForm(String name, String content, LocalDateTime dueDate)  {
+        this.name = name;
+        this.content = content;
+        this.dueDate = dueDate;
+    }
 }
