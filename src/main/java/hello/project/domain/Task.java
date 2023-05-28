@@ -6,6 +6,9 @@ import lombok.Getter;
 import org.hibernate.annotations.Fetch;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -29,7 +32,7 @@ public class Task extends AuditableEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member member; //테스크 생성자
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -38,28 +41,16 @@ public class Task extends AuditableEntity {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<TaskMember> taskMemberList;
 
-//    public Task(String name, String content, LocalDateTime dueDate, Member member, Household household) {
-//        this.name = name;
-//        this.content = content;
-//        this.dueDate = dueDate;
-//        this.member = member;
-//        this.household = household;
-//
-//        member.getCreatedTaskList().add(this);
-//        household.getTasks().add(this);
-//    }
-
-
     /** Task 생성
-     * @param dto      : TaskDto
-     * @param member   : Member(회원)
-     * @param household: Household(가정)
+     * @param dto        : TaskDto
+     * @param loginMember: 로그인맴버
+     * @param household  : Household(가정)
      */
-    public Task(TaskDto dto, Member member, Household household) {
+    public Task(TaskDto dto, Member loginMember, Household household) {
         this.name = dto.getName();
         this.content = dto.getContent();
-        this.dueDate = dto.getDueDate();
-        this.member =  member;
+        this.dueDate = createUtcTime(dto, loginMember);
+        this.member =  loginMember;
         this.household = household;
 
         member.getCreatedTaskList().add(this);
@@ -67,17 +58,30 @@ public class Task extends AuditableEntity {
     }
 
     /** Task 업데이트
-     *
-     * @param dto
+     * @param dto TaskDto
+     * @param loginMember 로그인맴버
      * @return
      */
-    public Task updateTask(TaskDto dto) {
+    public Task updateTask(TaskDto dto, Member loginMember) {
         this.name = dto.getName();
         this.content = dto.getContent();
-        this.dueDate = dto.getDueDate();
+        this.dueDate = createUtcTime(dto, loginMember);
         this.status = dto.getStatus();
         return this;
     }
 
+    /** UTC 로변환
+     * 사용자입력 dueDate 값을 DB 에 저장하기 위해 UTC 로 바꾼다.
+     * @param dto TaskDto
+     * @param member Member
+     * @return LocalDateTime
+     */
+    private LocalDateTime createUtcTime(TaskDto dto, Member member) {
+        String code = member.getTimezone().getTimeCode();
+        ZoneId zoneId = ZoneId.of(code);
+        LocalDateTime localDateTime = dto.getDueDate();
+        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId).withZoneSameInstant(ZoneOffset.UTC);
+        return zonedDateTime.toLocalDateTime();
+    }
 
 }

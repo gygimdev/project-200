@@ -18,7 +18,6 @@ spring:
     url: jdbc:h2:tcp://localhost/~/project-200
     username: sa
     password:
-
 # Logging
 logging:
   level:
