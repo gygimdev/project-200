@@ -1,11 +1,10 @@
 package hello.project.service;
 
-import hello.project.domain.Language;
 import hello.project.domain.Member;
-import hello.project.domain.Timezone;
 import hello.project.dto.member.MemberDto;
-import hello.project.dto.member.MemberRegistrationForm;
+import hello.project.dto.member.MyInfoForm;
 import hello.project.repository.MemberRepository;
+import hello.project.security.MemberDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +23,38 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberDetailService memberDetailService;
+
+    /** 나의 정보 업데이트
+     *
+     */
+    @Transactional
+    public void updateMyInfo(MemberDto dto) {
+        Long memberId = dto.getId();
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException("맴버가 존재하지 않습니다."));
+        findMember.updateMember(dto.getUsername(), dto.getTimezone());
+        memberRepository.save(findMember);
+        memberDetailService.updateMemberDetails(findMember);
+    }
+
+    /** 나의 정보 불러오기
+     * 나의 정보 페이지
+     * @param loginMemberEmail 로그인유저이메일
+     * @return MyInfoForm
+     */
+    public MyInfoForm getMyInfo(String loginMemberEmail) {
+
+        Member findMember = memberRepository.findMyInfo(loginMemberEmail);
+        log.info("logInfo {}", findMember.getUsername());
+        return MyInfoForm.builder()
+                .id(findMember.getId())
+                .email(findMember.getEmail())
+                .username(findMember.getUsername())
+                .timezone(findMember.getTimezone())
+                .householdName(findMember.getHousehold().getName())
+                .build();
+    }
 
     /**
      * 맴버가 가정을 가지고 있는지 체크
@@ -37,19 +68,6 @@ public class MemberService {
     }
 
     /**
-     * 서비스 회원상세
-     */
-//    public MemberForm getMemberDetail(Long id){
-//        Optional<Member> memberOptional = memberRepository.findById(id);
-//        MemberForm memberForm = new MemberForm();
-//        if (memberOptional.isPresent()) {
-//            memberForm.setEmail(memberOptional.get().getEmail());
-//            memberForm.setUsername(memberOptional.get().getUsername());
-//        }
-//        return memberForm;
-//    }
-
-    /**
      * 서비스 회원조회
      */
     public List<MemberDto> findAllMember() {
@@ -57,10 +75,12 @@ public class MemberService {
 
         List<MemberDto> allMember = new ArrayList<>();
         for (Member member: members) {
-            MemberDto memberDto = new MemberDto();
-            memberDto.setId(member.getId());
-            memberDto.setEmail(member.getEmail());
-            memberDto.setUsername(member.getUsername());
+            MemberDto memberDto = MemberDto.builder()
+                    .id(member.getId())
+                    .email(member.getEmail())
+                    .username(member.getUsername())
+                    .timezone(member.getTimezone())
+                    .build();
             allMember.add(memberDto);
         }
         return allMember;
@@ -71,14 +91,15 @@ public class MemberService {
      */
     @Transactional
     public void RegisterMember(MemberDto dto, String password) {
-        String email = dto.getEmail();
-        String username = dto.getUsername();
-        Timezone timezone = dto.getTimezone();
 
-        checkDuplicateMemberEmail(email);
+        //이메일 중복검증
+        checkDuplicateMemberEmail(dto.getEmail());
+
+        //비밀번호 암호화
         String encodedPassword = createEncodePassword(password);
 
-        Member member = new Member(email, username, encodedPassword, timezone);
+        // 맴버엔티티 저장
+        Member member = new Member(dto.getEmail(), dto.getUsername(), encodedPassword, dto.getTimezone());
         memberRepository.save(member);
     }
 

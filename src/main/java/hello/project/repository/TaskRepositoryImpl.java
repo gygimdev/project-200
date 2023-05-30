@@ -17,7 +17,6 @@ import static hello.project.domain.QTask.*;
 public class TaskRepositoryImpl implements  TaskRepositoryCustom {
     private final EntityManager em;
 
-
     @Override
     public List<Task> startQuery(TaskSearchCond cond) {
 
@@ -42,7 +41,6 @@ public class TaskRepositoryImpl implements  TaskRepositoryCustom {
                 .where(builder)
                 .fetch();
 
-        log.info(":::: 결과확인 {}", findTask);
         return findTask;
     }
 }

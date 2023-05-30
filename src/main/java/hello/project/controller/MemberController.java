@@ -1,14 +1,18 @@
 package hello.project.controller;
 
-import hello.project.domain.Language;
+import hello.project.common.CurrentMemberDetail;
+import hello.project.domain.Member;
 import hello.project.domain.Timezone;
 import hello.project.dto.member.LoginForm;
 import hello.project.dto.member.MemberDto;
 import hello.project.dto.member.MemberRegistrationForm;
+import hello.project.dto.member.MyInfoForm;
+import hello.project.dto.task.TaskDto;
+import hello.project.security.MemberDetails;
 import hello.project.service.MemberService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +38,41 @@ public class MemberController {
         return Timezone.values();
     }
 
+<<<<<<< Updated upstream
+=======
+    private final MemberService memberService;
+
+
+    /** 나의 정보 수정
+     * 내 정보 수정
+     */
+    @PostMapping("/member/myinfo")
+    public String myInfoUpdateView(@ModelAttribute MyInfoForm form, Model model) {
+        log.info("userName: {}", form.getUsername());
+        MemberDto dto = MemberDto.builder()
+                .id(form.getId())
+                .username(form.getUsername())
+                .timezone(form.getTimezone())
+                .build();
+
+        memberService.updateMyInfo(dto);
+        return "redirect:/member/myinfo";
+    }
+
+    /** 나의 정보
+     * 내정보페이지
+     * @param model
+     * @return
+     */
+    @GetMapping("/member/myinfo")
+    public String myInfoView(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+        String loginMemberEmail = CurrentMemberDetail.getLoginMemberEmail(memberDetails);
+        MyInfoForm myInfoForm = memberService.getMyInfo(loginMemberEmail);
+        model.addAttribute("infoForm", myInfoForm);
+        return "member/memberInfo";
+    }
+
+>>>>>>> Stashed changes
     /**
      * Member 회원 리스트 조회
      */
@@ -65,14 +104,13 @@ public class MemberController {
 
             return "member/memberRegistrationForm";
         }
+        MemberDto dto = MemberDto.builder()
+                .email(form.getEmail())
+                .username(form.getUsername())
+                .timezone(form.getTimezone())
+                .build();
 
-        MemberDto dto = new MemberDto();
-        dto.setEmail(form.getEmail());
-        dto.setUsername(form.getUsername());
-        dto.setTimezone(form.getTimezone());
-
-        String password = form.getPassword();
-        memberService.RegisterMember(dto, password);
+        memberService.RegisterMember(dto, form.getPassword());
 
         return "redirect:/member/loginForm";
     }

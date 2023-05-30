@@ -4,6 +4,7 @@ import hello.project.domain.Member;
 import hello.project.domain.Timezone;
 import hello.project.dto.HouseholdForm;
 import hello.project.dto.member.MemberDto;
+import hello.project.dto.member.MemberRegistrationForm;
 import hello.project.dto.task.TaskCreateForm;
 import hello.project.dto.task.TaskDto;
 import hello.project.repository.MemberRepository;
@@ -29,12 +30,16 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         // 맴버 생성
-        String password = "Test1234!";
         String email = "gygim.dev@gmail.com";
-        MemberDto dto = new MemberDto();
-        dto.setTimezone(Timezone.KST);
-        dto.setEmail(email);
-        memberService.RegisterMember(dto, password);
+        String username = "userA";
+        String password = "Test1234!";
+        Timezone timezone = Timezone.KST;
+        MemberDto memberDto = MemberDto.builder()
+                .email(email)
+                .username(username)
+                .timezone(timezone)
+                .build();
+        memberService.RegisterMember(memberDto, password);
         Member findMember = memberRepository.findByEmail(email).get();
 
         // 가정 생성

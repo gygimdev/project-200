@@ -1,13 +1,10 @@
 package hello.project.dto.task;
 
-import hello.project.domain.Member;
 import hello.project.domain.Task;
 import hello.project.domain.TaskStatus;
 import lombok.Data;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 
 @Data
 public class TaskDto {

@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+  <title>Task Form</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+<body>
+<!-- 네비게이션 바 -->
+<nav th:replace="~{base :: common_nav}"></nav>
+
+<!-- 컨탠트 -->
+<div class="container min-vh-100 d-flex justify-content-center align-items-center normal-font-size">
+
+  <!-- 나의 메뉴 -->
+  <form th:action="@{/member/myinfo}" method="post" th:object="${infoForm}">
+
+    <!-- 제목 -->
+    <p class="large-font-size mb-4" th:text="'Hello, ' + ${infoForm.username}"></p>
+
+    <!-- ID -->
+    <input class="visually-hidden" type="text" th:field="*{id}" th:value="*{id}">
+
+    <!-- 가정 이름 -->
+    <div class="mb-3">
+      <label for="householdName" class="form-label">Household Name</label>
+      <input disabled th:field="*{householdName}" th:value="*{householdName}" type="text" class="form-control" id="householdName">
+    </div>
+
+    <!-- 맴버 이메일 -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email Address</label>
+      <input disabled th:field="*{email}" th:value="*{email}" type="text" class="form-control" id="email">
+    </div>
+
+    <!-- 맴버 이름 -->
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input th:field="*{username}" th:value="*{username}" type="text" class="form-control" id="username">
+    </div>
+
+
+
+    <!-- Timezone -->
+    <!-- Member Timezone -->
+    <div class="mb-4">
+      <label for="select-timezone" class="form-label">Timezone</label>
+      <div th:errors="*{timezone}"></div>
+      <select id="select-timezone" name="timezone" class="form-select form-select-sm" aria-label=".form-select-sm example">
+        <option th:each="code : ${timezones}" th:selected="${code == infoForm.timezone}" th:text="${code}" th:value="${code}"></option>
+      </select>
+    </div>
+
+    <!-- 버튼 -->
+    <div>
+      <button th:onclick="|location.href='@{/tasks}'|" type="button" class="btn btn-outline-primary normal-font-size">back</button>
+      <button type="submit" class="btn btn-primary normal-font-size">Update</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

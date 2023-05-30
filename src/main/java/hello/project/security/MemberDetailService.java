@@ -6,6 +6,9 @@ import hello.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,5 +35,13 @@ public class MemberDetailService implements UserDetailsService {
 
         Member member = findMember.get();
         return new MemberDetails(member);
+    }
+
+    // 맴버 정보 변경시 보안정보 갱신
+    public void updateMemberDetails(Member updatedMember) {
+        MemberDetails updatedDetails = new MemberDetails(updatedMember);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication newAuthentication = new UsernamePasswordAuthenticationToken(updatedDetails, authentication.getCredentials(), updatedDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
     }
 }
