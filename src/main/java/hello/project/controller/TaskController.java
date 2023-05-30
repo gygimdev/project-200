@@ -142,9 +142,10 @@ public class TaskController {
         Member loginMember = CurrentMemberDetail.getLoginMember(memberDetails);
         String loginMemberEmail = loginMember.getEmail();
 
+        // TaskListForm 으로 변환 작업
         List<TaskDto> taskDtos = taskService.getTaskList(loginMemberEmail);
+
         TaskListForm form = new TaskListForm(taskDtos, loginMember);
-        System.out.println("form.getTasks() = " + form.getTasks());
         model.addAttribute("taskListForm", form);
         return "task/taskList";
     }

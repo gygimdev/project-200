@@ -42,6 +42,11 @@ public class Member extends AuditableEntity {
         this.timezone = timezone;
     }
 
+    public void updateMember(String username, Timezone timezone) {
+        this.username = username;
+        this.timezone = timezone;
+    }
+
     // :: 연관관계 바인딩 :: //
     public void changeHousehold(Household household) {
         this.household = household;

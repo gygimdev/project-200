@@ -2,6 +2,7 @@ package hello.project.domain;
 
 public enum Timezone {
     KST("Asia/Seoul"),
+    EST("US/Eastern")
     ;
 
     private String code;

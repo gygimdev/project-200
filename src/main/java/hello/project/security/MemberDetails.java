@@ -8,14 +8,20 @@ import java.util.Collection;
 
 public class MemberDetails implements UserDetails {
 
-    private final Member member;
+    private Member member;
 
     public MemberDetails(Member member) {
         this.member = member;
     }
 
+    //맴버 정보 가져오기
     public Member getMember() {
         return member;
+    }
+
+    //맴버 정보 갱신하기
+    public void updateMember(Member updateMember) {
+        this.member = updateMember;
     }
 
     @Override
