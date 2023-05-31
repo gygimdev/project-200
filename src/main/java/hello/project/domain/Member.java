@@ -38,7 +38,6 @@ public class Member extends AuditableEntity {
     private String password;
 
     @NotNull
-    @Size(min = 5)
     @Enumerated(EnumType.STRING)
     private Timezone timezone;
 

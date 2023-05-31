@@ -39,7 +39,6 @@ public class Task extends AuditableEntity {
     private Member member; //테스크 생성자
 
     @NotNull
-    @Size(min = 4)
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.TODO;
 
