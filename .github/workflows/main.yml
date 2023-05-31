@@ -4,9 +4,6 @@ on:
   push:
     branches: [ master ]
 
-env:
-  S3_BUCKET_NAME: cointalk-deploy
-
 jobs:
   build:
     runs-on: ubuntu-latest
