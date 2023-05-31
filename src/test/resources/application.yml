@@ -1,0 +1,13 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: create
+  # H2 데이터베이스
+  dataSource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
