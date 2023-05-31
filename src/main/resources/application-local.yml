@@ -1,0 +1,21 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  server:
+    address: 0.0.0.0
+    port: 8080
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  # MySQL 데이터베이스
+  dataSource:
+    url: jdbc:mysql://localhost:3306/project
+    username: root
+    password: c^W2p#o/A9h*m
+# Logging
+logging:
+  level:
+    root: info
+
