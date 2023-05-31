@@ -1,6 +1,11 @@
 package hello.project.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -8,6 +13,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends AuditableEntity {
 
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -18,12 +25,20 @@ public class Member extends AuditableEntity {
     @JoinColumn(name = "household_id")
     private Household household;
 
+    @NotNull
+    @Size(min = 3, max = 254)
     private String email;
 
+    @NotNull
+    @Size(min = 4, max = 25)
     private String username;
 
+    @NotNull
+    @Size(min = 6)
     private String password;
 
+    @NotNull
+    @Size(min = 5)
     @Enumerated(EnumType.STRING)
     private Timezone timezone;
 
@@ -34,13 +49,6 @@ public class Member extends AuditableEntity {
     private List<TaskMember> taskList = new ArrayList<>();
 
     protected Member() {}
-
-    public Member(String email, String username, String password, Timezone timezone) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.timezone = timezone;
-    }
 
     public void updateMember(String username, Timezone timezone) {
         this.username = username;

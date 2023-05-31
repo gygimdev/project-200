@@ -1,6 +1,8 @@
 package hello.project.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class Household extends AuditableEntity{
     @Column(name="household_id")
     private Long id;
 
+    @NotNull
+    @Size(min = 4, max = 25)
     private String name;
 
     @OneToMany(mappedBy = "household", cascade = CascadeType.ALL)

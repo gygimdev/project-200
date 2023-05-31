@@ -38,11 +38,6 @@ public class MemberController {
         return Timezone.values();
     }
 
-<<<<<<< Updated upstream
-=======
-    private final MemberService memberService;
-
-
     /** 나의 정보 수정
      * 내 정보 수정
      */
@@ -72,7 +67,6 @@ public class MemberController {
         return "member/memberInfo";
     }
 
->>>>>>> Stashed changes
     /**
      * Member 회원 리스트 조회
      */

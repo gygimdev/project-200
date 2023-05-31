@@ -1,8 +1,6 @@
 spring:
-#  profiles:
-#    active: stage
-#  jackson:
-#    time-zone: UTC
+  profiles:
+    active: local
   messages:
     basename: messages, errors
     fallback-to-system-locale: false

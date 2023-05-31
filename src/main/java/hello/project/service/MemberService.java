@@ -99,7 +99,13 @@ public class MemberService {
         String encodedPassword = createEncodePassword(password);
 
         // 맴버엔티티 저장
-        Member member = new Member(dto.getEmail(), dto.getUsername(), encodedPassword, dto.getTimezone());
+        Member member = Member.builder()
+                .email(dto.getEmail())
+                .username(dto.getUsername())
+                .password(encodedPassword)
+                .timezone(dto.getTimezone())
+                .build();
+
         memberRepository.save(member);
     }
 

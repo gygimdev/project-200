@@ -2,8 +2,9 @@ package hello.project.domain;
 
 import hello.project.dto.task.TaskDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import org.hibernate.annotations.Fetch;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -24,17 +25,21 @@ public class Task extends AuditableEntity {
     @JoinColumn(name = "household_id")
     private Household household;
 
+    @NotNull
+    @Size(min = 4, max = 25)
     private String name;
 
     private String content;
 
+    @NotNull
     private LocalDateTime dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member; //테스크 생성자
 
-    @Column(nullable = false)
+    @NotNull
+    @Size(min = 4)
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.TODO;
 
