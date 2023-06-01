@@ -17,6 +17,7 @@ cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
 source ~/.bashrc
 echo "${SERVER_ADDRESS}" > check
 
+
 # jar 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
 nohup java -jar $JAR_FILE --spring.profiles.active=prod --SERVER_ADDRESS=${SERVER_ADDRESS} --SERVER_PORT=${SERVER_PORT} --DB_HOST=${DB_HOST} --DB_PORT=${DB_PORT} --DB_SCHEMA=${DB_SCHEMA} --DB_USERNAME=${DB_USERNAME} --DB_PASSWORD=${DB_PASSWORD} &
