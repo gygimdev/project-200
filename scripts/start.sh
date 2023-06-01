@@ -15,6 +15,7 @@ cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
 
 # 환경변수 불러오기
 source ~/.bashrc
+echo "${SERVER_ADDRESS}" > check
 
 # jar 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
