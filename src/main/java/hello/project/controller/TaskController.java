@@ -102,7 +102,7 @@ public class TaskController {
     @GetMapping("/task/create")
     public String taskCreateFormView(Model model) {
         model.addAttribute("taskCreateForm", new TaskCreateForm());
-        return "/task/taskCreateForm";
+        return "/tas/taskCreateForm";
     }
 
     /** Task 생성
