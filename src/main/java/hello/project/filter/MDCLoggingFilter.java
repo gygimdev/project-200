@@ -25,16 +25,14 @@ public class MDCLoggingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         try {
-
             HttpServletRequest httpRequest = (HttpServletRequest) request;
-
 
             // HTTP 헤더에서 request_id 값을 읽어옴
             String requestId = httpRequest.getHeader(REQUEST_ID_HEADER);
             // HTTP 헤더에서 URI 값을 읽어옴
             String requestURI = httpRequest.getRequestURI();
 
-
+            // 넘겨받은 requestId 값이 없으면 추가
             if(StringUtils.hasText(requestId)) {
                 MDC.put(MDC_KEY, requestId);
             } else {
@@ -53,7 +51,6 @@ public class MDCLoggingFilter implements Filter {
                 // 다음 필터 또는 서블릿 호출
                 chain.doFilter(request, response);
             }
-
         } finally {
             MDC.clear();
         }

@@ -4,7 +4,7 @@
     <!-- 로그 파일이 저장될 경로 -->
     <property name="LOG_PATH" value="log"/>
     <!-- 로그 파일 이름 -->
-    <property name="LOG_FILE_NAME" value="wrsungRestApi"/>
+    <property name="LOG_FILE_NAME" value="project-200"/>
     <!-- 로그 출력 패턴 -->
 <!--    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%logger{40}] - %msg%n"/>-->
     <property name="LOG_PATTERN" value="[%X{request_id:-startup}] %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
