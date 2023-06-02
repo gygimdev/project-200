@@ -34,11 +34,6 @@ public class MDCLoggingFilter implements Filter {
             // HTTP 헤더에서 URI 값을 읽어옴
             String requestURI = httpRequest.getRequestURI();
 
-            // URL 패턴 필터링
-            if (pathMatcher.match("/js/**", requestURI) || pathMatcher.match("/css/**", requestURI)) {
-                // 로그를 출력하지 않고 종료
-                return;
-            }
 
             if(StringUtils.hasText(requestId)) {
                 MDC.put(MDC_KEY, requestId);
@@ -46,11 +41,18 @@ public class MDCLoggingFilter implements Filter {
                 final UUID uuid = UUID.randomUUID();
                 MDC.put("request_id", uuid.toString());
             }
-            // request_id 할당
-            log.info("Request received for URI: {}", requestURI);
 
-            // 다음 필터 또는 서블릿 호출
-            chain.doFilter(request, response);
+            // URL 패턴 필터링
+            if (pathMatcher.match("/js/**", requestURI) || pathMatcher.match("/css/**", requestURI)) {
+                // 로그를 출력하지 않고 종료
+                chain.doFilter(request, response);
+            } else {
+                // request_id 할당
+                log.info("Request received for URI: {}", requestURI);
+
+                // 다음 필터 또는 서블릿 호출
+                chain.doFilter(request, response);
+            }
 
         } finally {
             MDC.clear();
