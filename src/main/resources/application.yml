@@ -18,5 +18,6 @@ spring:
     password:
 # Logging
 logging:
+#  config: classpath:logback-dev.xml
   level:
     root: info
