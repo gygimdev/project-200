@@ -15,5 +15,6 @@ spring:
     password: ${DB_PASSWORD}
 # Logging
 logging:
+  config: classpath:logback-spring.xml
   level:
     root: info
