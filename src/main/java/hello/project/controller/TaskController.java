@@ -102,7 +102,7 @@ public class TaskController {
     @GetMapping("/task/create")
     public String taskCreateFormView(Model model) {
         model.addAttribute("taskCreateForm", new TaskCreateForm());
-        return "/tas/taskCreateForm";
+        return "task/taskCreateForm";
     }
 
     /** Task 생성
@@ -115,7 +115,7 @@ public class TaskController {
     public String createTaskView(@AuthenticationPrincipal MemberDetails memberDetails, @Validated TaskCreateForm form, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "/task/taskCreateForm";
+            return "task/taskCreateForm";
         }
 
         //로그인 정보
