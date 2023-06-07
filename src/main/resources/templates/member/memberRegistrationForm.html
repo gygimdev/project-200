@@ -11,36 +11,38 @@
   <!-- Form -->
   <form th:action="@{/member/register}" th:object="${memberRegistrationForm}" method="post">
 
-    <p class="h2 mb-4">Register Form</p>
+    <p class="h2 mb-4" th:text="#{member.registration}">Register Form</p>
 
     <!-- Member Email -->
     <div class="mb-3">
-      <label for="email" class="form-label">Email address</label>
+      <label for="email" class="form-label" th:text="#{email.address}">Email address</label>
       <input th:field="*{email}" id="email" name="email" type="email" class="form-control"  aria-describedby="emailHelp">
       <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-      <div th:errors="*{email}"></div>
+      <div th:errors="*{email}" class="text-danger"></div>
     </div>
 
     <!-- Member Username -->
     <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
+      <label for="username" class="form-label" th:text="#{member.username}">Username</label>
       <input id="username" type="text" class="form-control" th:field="*{username}" >
+      <div th:errors="*{username}" class="text-danger"></div>
     </div>
 
     <!-- Member Password -->
     <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
+      <label for="password" class="form-label" th:text="#{member.password}">Password</label>
       <input th:field="*{password}" id="password" type="password" class="form-control" >
+      <div th:errors="*{password}" class="text-danger"></div>
     </div>
 
     <!-- Member Timezone -->
     <div class="mb-4">
-      <label for="select-timezone" class="form-label">Timezone</label>
-      <div th:errors="*{timezone}"></div>
+      <label for="select-timezone" class="form-label" th:text="#{member.timezone}">Timezone</label>
       <select id="select-timezone" name="timezone" class="form-select form-select-sm" aria-label=".form-select-sm example">
         <option selected>Select Timezone</option>
         <option th:each="code : ${timezones}" th:text="${code}" th:value="${code}"></option>
       </select>
+      <div th:errors="*{timezone}" class="text-danger"></div>
     </div>
 
 
