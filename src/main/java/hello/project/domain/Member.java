@@ -30,7 +30,7 @@ public class Member extends AuditableEntity {
     private String email;
 
     @NotNull
-    @Size(min = 4, max = 25)
+    @Size(min = 2, max = 25)
     private String username;
 
     @NotNull

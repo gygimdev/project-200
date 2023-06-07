@@ -91,7 +91,6 @@ public class MemberController {
      */
     @PostMapping("/member/register")
     public String register(@Validated  @ModelAttribute MemberRegistrationForm form, BindingResult bidingResult) {
-        String email = form.getEmail();
 
         if (bidingResult.hasErrors()) {
             System.out.println("bidingResult = " + bidingResult.getAllErrors());
@@ -113,7 +112,6 @@ public class MemberController {
      */
     @GetMapping("/member/login")
     public String loginForm(Model model) {
-        log.info("::: loginForm :::");
         model.addAttribute("loginForm", new LoginForm());
         return "member/loginForm";
     }
