@@ -27,11 +27,11 @@ public class QHousehold extends EntityPathBase<Household> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final ListPath<Ingredient, QIngredient> ingredients = this.<Ingredient, QIngredient>createList("ingredients", Ingredient.class, QIngredient.class, PathInits.DIRECT2);
+
     public final ListPath<Member, QMember> members = this.<Member, QMember>createList("members", Member.class, QMember.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
-
-    public final ListPath<Task, QTask> tasks = this.<Task, QTask>createList("tasks", Task.class, QTask.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updated_at = _super.updated_at;

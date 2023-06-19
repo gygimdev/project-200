@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>dashboard</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+
+<body>
+    <!-- 네이게이션 바 -->
+    <nav th:replace="~{base :: common_nav}"></nav>
+
+    <div class="container min-vh-100 min-vw-100 d-flex justify-content-center align-items-center normal-font-size">
+        <div class="w-100">
+
+            <!-- 메뉴 영역 -->
+            <div class="ms-4 mb-4 d-flex align-items-center">
+                <span class="large-font-size">Menu</span>
+                <button class="ms-2 btn btn-outline-primary btn-sm" th:onclick="|location.href='@{/ingredient/add}'|" type="button">+</button>
+            </div>
+
+            <table class="table table-hover mb-4">
+
+                <!-- 헤드 -->
+                <thead class="table-light">
+                <tr class="small-font-size">
+
+                    <th scope="col">
+                        <span>Name</span>
+                    </th>
+                    <th scope="col">
+                        <span>Quantity/Weight</span>
+                    </th>
+                    <th scope="col">
+                        <span>Expires In</span>
+                    </th>
+                </tr>
+                </thead>
+
+                <!-- 바디 -->
+                <tbody>
+                <tr class="align-middle" style="height: 50px; cursor: pointer;" th:each="ingredient : ${ingredientListForm.ingredients}" th:onclick="|location.href='@{ingredient/{ingredientId}(ingredientId=${ingredient.id})}'|">
+
+                    <!-- name -->
+                    <td class="text-center">
+                        <span th:text="${ingredient.name}">제목은 여기에 들어갑니다.</span>
+                    </td>
+
+                    <!-- quantity -->
+                    <td class="text-center">
+                        <span th:text="${ingredient.quantity}">수량은 여기에 들어갑니다.</span>
+                    </td>
+
+                    <!-- expireIn -->
+                    <td>
+                        <span class="small-font-size">
+                            <span th:text="${ingredient.expireIn}"></span>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+
+
+            <!-- 재료 영역 -->
+            <div class="ms-4 mb-4 d-flex align-items-center">
+                <span class="large-font-size">Ingredients</span>
+                <button class="ms-2 btn btn-outline-primary btn-sm" th:onclick="|location.href='@{/ingredient/add}'|" type="button">+</button>
+            </div>
+
+            <!-- 테이블 시작 -->
+            <table class="table table-hover">
+
+                <!-- 헤드 -->
+                <thead class="table-light">
+                <tr class="small-font-size">
+                    <th scope="col" class="col-1">
+                        <span>Type</span>
+                    </th>
+                    <th scope="col">
+                        <span>Name</span>
+                    </th>
+                    <th scope="col">
+                        <span>Quantity/Weight</span>
+                    </th>
+                    <th scope="col">
+                        <span>Expires In</span>
+                    </th>
+                </tr>
+                </thead>
+
+                <!-- 바디 -->
+                <tbody>
+                <tr class="align-middle" style="height: 50px; cursor: pointer;" th:each="ingredient : ${ingredientListForm.ingredients}" th:onclick="|location.href='@{ingredient/{ingredientId}(ingredientId=${ingredient.id})}'|">
+
+                    <!-- status -->
+                    <td>
+                        <span th:text="${ingredient.ingredientType.getIngredientTypeName()}"></span>
+                    </td>
+
+                    <!-- name -->
+                    <td class="text-center">
+                        <span th:text="${ingredient.name}">제목은 여기에 들어갑니다.</span>
+                    </td>
+
+                    <!-- quantity -->
+                    <td class="text-center">
+                        <span th:text="${ingredient.quantity}">수량은 여기에 들어갑니다.</span>
+                    </td>
+
+                    <!-- expireIn -->
+                    <td>
+                        <span class="small-font-size">
+                            <span th:text="${ingredient.expireIn}"></span>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</body>
+</html>

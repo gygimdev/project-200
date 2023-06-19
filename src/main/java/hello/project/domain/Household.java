@@ -29,6 +29,6 @@ public class Household extends AuditableEntity{
     @OneToMany(mappedBy = "household", cascade = CascadeType.ALL)
     private List<Member> members = new ArrayList<>();
 
-    @OneToMany(mappedBy = "household", cascade = CascadeType.ALL)
-    private List<Task> tasks = new ArrayList<>();
+   @OneToMany(mappedBy = "household", cascade = CascadeType.ALL)
+    private List<Ingredient> ingredients = new ArrayList<>();
 }
