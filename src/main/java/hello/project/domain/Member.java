@@ -42,10 +42,13 @@ public class Member extends AuditableEntity {
     private Timezone timezone;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Task> createdTaskList = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<TaskMember> taskList = new ArrayList<>();
+    private List<Ingredient> ingredients = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Recipe> recipes = new ArrayList<>();
 
     protected Member() {}
 

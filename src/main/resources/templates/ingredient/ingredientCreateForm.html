@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>Ingredient Create Form</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+<body>
+<!-- 네비게이션 바 -->
+<nav th:replace="~{base :: common_nav}"></nav>
+
+<!-- 컨탠트 -->
+<div class="container min-vh-100 d-flex justify-content-center align-items-center normal-font-size">
+
+    <!-- Item From -->
+    <form th:action="@{/ingredient/add}" method="post" th:object="${ingredientCreateForm}">
+
+        <p class="large-font-size mb-4">Create Ingredient</p>
+
+        <!-- Name -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input th:field="*{name}" th:value="*{name}" type="text" class="form-control" id="name">
+
+            <!-- 에러메세지 -->
+            <p class="text-danger mt-2 small-font-size" th:errors="*{name}" />
+        </div>
+
+        <!-- Quantity -->
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity/Weight</label>
+            <input th:field="*{quantity}" th:value="*{quantity}" type="number" class="form-control" id="quantity">
+
+            <!-- 에러메세지 -->
+            <p class="text-danger mt-2 small-font-size" th:errors="*{quantity}" />
+        </div>
+
+        <!-- Type -->
+        <div class="mb-3">
+            <label for="select-Ingredient-type" class="form-label">Ingredient Type</label>
+            <select id="select-Ingredient-type" name="ingredientType" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option selected>Select Ingredient Type</option>
+                <option th:each="type : ${ingredientTypes}" th:text="${type}" th:value="${type}"></option>
+            </select>
+
+            <!-- 에러메세지 -->
+            <div th:errors="*{ingredientType}" class="text-danger"></div>
+        </div>
+
+        <!-- ExpireDate -->
+        <div class="mb-3">
+            <label for="expireDate" class="form-label">Expire Date</label><br>
+            <input th:field=*{expireDate} type="date" id="expireDate" name="expireDate">
+
+            <!-- 에러메세지 -->
+            <p class="text-danger mt-2 small-font-size" th:errors="*{expireDate}" />
+        </div>
+
+        <button th:onclick="|location.href='@{/dashboard}'|" type="button" class="btn btn-outline-primary normal-font-size">back</button>
+        <button type="submit" class="btn btn-primary normal-font-size">Create</button>
+    </form>
+</div>
+</body>
+</html>

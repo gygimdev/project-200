@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>Ingredient Update Form</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+<body>
+<!-- 네비게이션 바 -->
+<nav th:replace="~{base :: common_nav}"></nav>
+
+<!-- 컨탠트 -->
+<div class="container w-100 min-vh-100 d-flex flex-column justify-content-center align-items-center normal-font-size">
+    <div>
+
+        <!-- Task From -->
+        <form class="mb-4" th:action="@{/ingredient/update}" method="post" th:object="${ingredientUpdateForm}">
+
+            <p class="large-font-size mb-4">Ingredient Update</p>
+            <!-- Id -->
+            <input class="visually-hidden" type="text" th:field="*{id}" th:value="*{id}">
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input th:field="*{name}" th:value="*{name}" type="text" class="form-control" id="name">
+            </div>
+
+            <!-- quantity -->
+            <div class="mb-3">
+                <label for="ingredientQuantity" class="form-label">Content</label>
+                <input th:field="*{quantity}" class="form-control" id="ingredientQuantity"/>
+            </div>
+
+            <!-- type -->
+            <div class="mb-4">
+                <label for="select-Ingredient-type" class="form-label">Ingredient Type</label>
+                <select id="select-Ingredient-type" name="ingredientType" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <option th:each="type : ${ingredientTypes}" th:text="${type}" th:value="${type}" th:selected="${type} == ${ingredientUpdateForm.ingredientType}"></option>
+                </select>
+
+                <!-- 에러메세지 -->
+                <div th:errors="*{ingredientType}" class="text-danger"></div>
+            </div>
+
+            <!-- expireDate -->
+            <div class="mb-3">
+                <label for="expireDate" class="form-label">Expire Date</label>
+                <input th:value=*{expireDate} type="datetime-local" id="expireDate" name="expireDate">
+                <p class="text-danger mt-2 small-font-size" th:errors="*{expireDate}" />
+            </div>
+
+
+            <!-- 버튼 -->
+            <div class="d-flex justify-content-end">
+                <button th:onclick="|location.href='@{/dashboard}'|" type="button" class="me-1 btn btn-outline-primary normal-font-size">back</button>
+                <button type="submit" class="btn btn-primary normal-font-size">Update</button>
+            </div>
+        </form>
+        <form style="margin-top: -58px;" th:action="@{/ingredient/delete}" method="post" th:object="${ingredientUpdateForm}">
+            <input class="visually-hidden" th:field="*{id}" />
+            <button type="submit" style="margin-right: 6px;" class="btn btn-outline-danger normal-font-size">Dispose</button>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

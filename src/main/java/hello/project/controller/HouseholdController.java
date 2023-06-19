@@ -57,7 +57,7 @@ public class HouseholdController {
     public String householdFormCreate(@AuthenticationPrincipal MemberDetails memberDetails, @Valid HouseholdForm form) {
         Member loginMember = CurrentMemberDetail.getLoginMember(memberDetails);
         householdService.createHousehold(form, loginMember);
-        return "redirect:/tasks";
+        return "redirect:/ingredients";
     }
 
     /**
@@ -70,7 +70,7 @@ public class HouseholdController {
         // 맴버가 이미 가정에 배정되어 있으면 Task 리스트 화면으로
         boolean flag = memberService.checkMemberHasHousehold(loginUserEmail);
         if(flag) {
-            return "redirect:/tasks";
+            return "redirect:/ingredients";
         }
 
         List<HouseholdDto> householdsList = householdService.getHouseholdsList();
