@@ -41,7 +41,6 @@ public class MemberController {
      */
     @PostMapping("/member/myinfo")
     public String myInfoUpdateView(@ModelAttribute MyInfoForm form, Model model) {
-        log.info("userName: {}", form.getUsername());
         MemberDto dto = MemberDto.builder()
                 .id(form.getId())
                 .username(form.getUsername())

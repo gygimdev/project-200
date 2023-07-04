@@ -47,9 +47,9 @@
             <tr th:each="household : ${households}">
                 <td th:text="${household.name}"></td>
                 <td class="text-center">
-                    <form  th:action="@{/household/join}" method="post">
+                    <form  th:action="@{/household/apply}" method="post">
                         <input class="form-control me-2 visually-hidden" th:value="${household.id}" name="id" type="text">
-                        <button type="submit" class="btn btn-outline-danger btn-sm">Join</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Apply</button>
                     </form>
                 </td>
             </tr>

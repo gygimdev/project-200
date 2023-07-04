@@ -26,6 +26,10 @@ public class Household extends AuditableEntity{
     @Size(min = 4, max = 25)
     private String name;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @OneToMany(mappedBy = "household", cascade = CascadeType.ALL)
     private List<Member> members = new ArrayList<>();
 

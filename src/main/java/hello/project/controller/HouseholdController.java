@@ -28,6 +28,15 @@ public class HouseholdController {
     private final HouseholdService householdService;
     private final MemberService memberService;
 
+    /** 가정 합류 신청
+     */
+    @PostMapping("/household/apply")
+    public String applyHousehold(@AuthenticationPrincipal MemberDetails memberDetails) {
+
+
+        return "redirect:/households";
+    }
+
     /**
      * 맴버가 가정 합류
      * @return
@@ -35,7 +44,7 @@ public class HouseholdController {
     @PostMapping("/household/join")
     public String joinHousehold(@AuthenticationPrincipal MemberDetails memberDetails, @RequestParam("id") Long householdId) {
         householdService.joinHousehold(memberDetails, householdId);
-        return "redirect:/tasks";
+        return "redirect:/ingredients";
     }
 
     /**

@@ -23,11 +23,10 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String dashboardView(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-
         String loginMemberEmail = CurrentMemberDetail.getLoginMemberEmail(memberDetails);
         boolean flag = memberService.checkMemberHasHousehold(loginMemberEmail);
         if(!flag) {
-            return "households";
+            return "redirect:/households";
         }
         DashboardForm form = dashboardService.getDashboard(loginMemberEmail);
         model.addAttribute("dashboardForm", form);
