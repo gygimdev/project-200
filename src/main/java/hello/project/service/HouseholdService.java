@@ -46,7 +46,9 @@ public class HouseholdService {
     @Transactional
     public void createHousehold(HouseholdForm form, Member member) {
         String householdName = form.getName();
-        Household household = new Household(householdName);
+        Household household = Household.builder()
+                .name(householdName)
+                .build();
         Household savedHousehold = householdRepository.save(household);
         Member foundMember = memberRepository.findByEmail(member.getEmail())
                 .orElseThrow(() -> new NoSuchElementException("Member not found"));
