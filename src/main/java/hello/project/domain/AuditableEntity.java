@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -25,5 +26,9 @@ public class AuditableEntity {
     @PreUpdate
     public void preUpdate() {
         this.updated_at = LocalDateTime.now(ZoneOffset.UTC);
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
     }
 }

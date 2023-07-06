@@ -1,22 +1,21 @@
-package hello.project.service;
+package hello.project.service.household;
 
 import hello.project.domain.Household;
+import hello.project.domain.HouseholdApply;
 import hello.project.domain.Member;
-import hello.project.dto.HouseholdDto;
+import hello.project.dto.household.HouseholdDto;
 import hello.project.dto.HouseholdForm;
+import hello.project.repository.HouseholdApplyRepository;
 import hello.project.repository.HouseholdRepository;
 import hello.project.repository.MemberRepository;
 import hello.project.security.MemberDetails;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,8 +23,28 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class HouseholdService {
+    private final HouseholdApplyRepository householdApplyRepository;
     private final HouseholdRepository householdRepository;
     private final MemberRepository memberRepository;
+
+    /**
+     * 맴버가 household 에 신청
+     */
+    @Transactional
+    public void applyHousehold(String loginMemberEmail, Long householdId) {
+        // 가정 신청 로직 시작
+        Member findMember = memberRepository.findByEmail(loginMemberEmail)
+                .orElseThrow(() -> new NoSuchElementException("Member not found"));
+
+        Household findHousehold = householdRepository.findById(householdId)
+                .orElseThrow(() -> new NoSuchElementException("Household not found"));
+
+        HouseholdApply householdApply = HouseholdApply.builder()
+                .member(findMember)
+                .household(findHousehold)
+                .build();
+        householdApplyRepository.save(householdApply);
+    }
 
     /**
      * 맴버가 household 에 조인
@@ -46,7 +65,9 @@ public class HouseholdService {
     @Transactional
     public void createHousehold(HouseholdForm form, Member member) {
         String householdName = form.getName();
-        Household household = new Household(householdName);
+        Household household = Household.builder()
+                .name(householdName)
+                .build();
         Household savedHousehold = householdRepository.save(household);
         Member foundMember = memberRepository.findByEmail(member.getEmail())
                 .orElseThrow(() -> new NoSuchElementException("Member not found"));

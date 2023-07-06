@@ -1,6 +1,7 @@
 package hello.project.security;
 
 import hello.project.domain.Member;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

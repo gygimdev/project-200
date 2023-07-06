@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: common_header(~{::title},~{::link})}">
+    <title>Household Apply Status</title>
+</head>
+
+<style th:replace="~{base :: common_style}"></style>
+
+<body>
+    <nav th:replace="~{base :: common_nav}"></nav>
+    <div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center">
+        <div class="d-flex flex-column align-items-center justify-content-center small-font-size">
+            <p>Your request has been submitted.</p>
+            <p>Please wait for the confirmation from the householder.</p>
+        </div>
+
+        <table class="table table-bordered table-hover">
+
+           <!-- 헤드 -->
+           <thead class="table-light">
+           <tr class="small-font-size">
+               <!-- 가정 이름 -->
+               <th scope="col">
+                   <span>Household</span>
+               </th>
+               <!-- 신청 시간 -->
+               <th scope="col">
+                   <span>Applied At</span>
+               </th>
+
+               <!-- 신청 상태 -->
+               <th scope="col">
+                   <span>status</span>
+               </th>
+
+               <!-- 신청 취소 -->
+               <th scope="col">
+                   <span>Cancel</span>
+               </th>
+           </tr>
+           </thead>
+
+           <!-- 바디 -->
+           <tbody>
+           <tr class="align-middle small-font-size">
+               <!-- 가정이름 -->
+               <td>
+                   <span th:text="${householdApplyForm.householdName}">가정이름</span>
+               </td>
+
+               <!-- 최초 신청시간 -->
+               <td>
+                   <span th:text="${householdApplyForm.createdAt}">신청시간</span>
+               </td>
+
+               <!-- 상태 -->
+               <td>
+                   <span>Pend</span>
+               </td>
+
+               <!-- 신청 취소 -->
+               <td>
+                   <form  th:action="@{/household/apply-cancel}" method="post">
+                       <input class="form-control me-2 visually-hidden" th:value="${householdApplyForm.householdApplyId}" name="householdApplyId" type="text">
+                       <button type="submit" class="small-font-size btn btn-outline-danger btn-sm">Cancel</button>
+                   </form>
+               </td>
+           </tr>
+           </tbody>
+       </table>
+    </div>
+</body>
+</html>

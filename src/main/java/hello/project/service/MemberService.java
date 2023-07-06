@@ -62,7 +62,6 @@ public class MemberService {
     public boolean checkMemberHasHousehold(String loginMemberEmail) {
         Member findMember = memberRepository.findByEmail(loginMemberEmail)
                 .orElseThrow(() -> new NoSuchElementException("맴버가 존재하지 않습니다."));
-
         Long count = memberRepository.countMemberHousehold(findMember.getEmail());
         return count > 0;
     }
