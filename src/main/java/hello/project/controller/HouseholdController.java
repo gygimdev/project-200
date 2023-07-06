@@ -3,10 +3,12 @@ package hello.project.controller;
 import hello.project.common.CurrentMemberDetail;
 import hello.project.domain.Household;
 import hello.project.domain.Member;
-import hello.project.dto.HouseholdDto;
+import hello.project.dto.household.HouseholdApplyForm;
+import hello.project.dto.household.HouseholdDto;
 import hello.project.dto.HouseholdForm;
 import hello.project.security.MemberDetails;
-import hello.project.service.HouseholdService;
+import hello.project.service.household.HouseholdApplyService;
+import hello.project.service.household.HouseholdService;
 import hello.project.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,15 +28,42 @@ import java.util.List;
 public class HouseholdController {
 
     private final HouseholdService householdService;
+    private final HouseholdApplyService householdApplyService;
     private final MemberService memberService;
+
+    /** 가정 합류 취소
+     *
+     */
+    @PostMapping("/household/apply-cancel")
+    public String householdApplyCancel(@RequestParam("householdApplyId") Long householdApplyId) {
+        householdApplyService.cancelHouseholdApply(householdApplyId);
+        return "redirect:/households";
+    }
+
+    /** 가정 합류 신청 조회
+     *
+     */
+    @GetMapping("/household/apply-status")
+    public String householdApplyStatus(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+        String loginMemberEmail = CurrentMemberDetail.getLoginMemberEmail(memberDetails);
+        HouseholdApplyForm form = householdApplyService.getMemberHouseholdApply(loginMemberEmail);
+        model.addAttribute("householdApplyForm", form);
+        return "household/householdApplyForm";
+    }
 
     /** 가정 합류 신청
      */
     @PostMapping("/household/apply")
-    public String applyHousehold(@AuthenticationPrincipal MemberDetails memberDetails) {
+    public String applyHousehold(@AuthenticationPrincipal MemberDetails memberDetails, @RequestParam("id") Long householdId, Model model) {
+        String loginMemberEmail = CurrentMemberDetail.getLoginMemberEmail(memberDetails);
+        householdService.applyHousehold(loginMemberEmail, householdId);
+//        HouseholdInvitationStatusForm form = HouseholdInvitationStatusForm.builder()
+//                .message(message)
+//                .build();
 
+//        model.addAttribute("householdInvitationStatusForm", )
 
-        return "redirect:/households";
+        return "household/householdInvitationStatus";
     }
 
     /**
@@ -76,11 +105,10 @@ public class HouseholdController {
     public String householdListView(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
         String loginUserEmail = memberDetails.getUsername();
 
+
         // 맴버가 이미 가정에 배정되어 있으면 Task 리스트 화면으로
         boolean flag = memberService.checkMemberHasHousehold(loginUserEmail);
-        if(flag) {
-            return "redirect:/ingredients";
-        }
+        if(flag) return "redirect:/ingredients";
 
         List<HouseholdDto> householdsList = householdService.getHouseholdsList();
         model.addAttribute("households", householdsList);

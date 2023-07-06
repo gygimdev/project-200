@@ -1,4 +1,4 @@
-package hello.project.dto;
+package hello.project.dto.household;
 
 import lombok.Data;
 

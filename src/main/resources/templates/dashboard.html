@@ -7,7 +7,6 @@
 
 <style th:replace="~{base :: common_style}"></style>
 
-
 <body>
     <!-- 네이게이션 바 -->
     <nav th:replace="~{base :: common_nav}"></nav>
@@ -16,57 +15,8 @@
         <div class="d-flex flex-column justify-content-center align-items-center" style="height: 200px; padding-top:50px;">
             <h2>WELCOME TO COOKEATNAO</h2>
         </div>
+
         <div class="w-100">
-<!--           &lt;!&ndash; 아이템 영역&ndash;&gt;-->
-<!--            <div th:if="${not #arrays.isEmpty(dashboardForm.ingredients)}" class="ms-4 mb-4 d-flex align-items-center">-->
-<!--                <span class="large-font-size">Items</span>-->
-<!--                <button class="ms-2 btn btn-outline-primary btn-sm" th:onclick="|location.href='@{/item/add}'|" type="button">+</button>-->
-<!--            </div>-->
-
-<!--            &lt;!&ndash; 아이템 테이블 시작 &ndash;&gt;-->
-<!--            <table class="table table-hover mb-5" th:if="${not #arrays.isEmpty(dashboardForm.ingredients)}">-->
-
-<!--                &lt;!&ndash; 헤드 &ndash;&gt;-->
-<!--                <thead class="table-light">-->
-<!--                <tr class="small-font-size">-->
-<!--                    <th scope="col">-->
-<!--                        <span>Name</span>-->
-<!--                    </th>-->
-<!--                    <th scope="col">-->
-<!--                        <span>Quantity/Weight</span>-->
-<!--                    </th>-->
-<!--                    <th scope="col">-->
-<!--                        <span>Expires In</span>-->
-<!--                    </th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-
-<!--                &lt;!&ndash; 바디 &ndash;&gt;-->
-<!--                <tbody>-->
-<!--                <tr class="align-middle" style="height: 50px; cursor: pointer;" th:each="ingredient : ${dashboardForm.items}" th:onclick="|location.href='@{item/{itemId}(itemId=${item.id})}'|">-->
-
-<!--                    &lt;!&ndash; name &ndash;&gt;-->
-<!--                    <td class="text-center">-->
-<!--                        <span th:text="${item.name}">제목은 여기에 들어갑니다.</span>-->
-<!--                    </td>-->
-
-<!--                    &lt;!&ndash; quantity &ndash;&gt;-->
-<!--                    <td class="text-center">-->
-<!--                        <span th:text="${item.quantity}">수량은 여기에 들어갑니다.</span>-->
-<!--                    </td>-->
-
-<!--                    &lt;!&ndash; expireIn &ndash;&gt;-->
-<!--                    <td>-->
-<!--                        <span class="small-font-size">-->
-<!--                            <span th:text="${item.expireIn}"></span>-->
-<!--                        </span>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
-
-
-
             <!-- 재료 영역 -->
             <div class="ms-4 mb-4 d-flex align-items-center">
                 <span class="large-font-size">Ingredients</span>
