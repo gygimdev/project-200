@@ -75,7 +75,7 @@ public class MemberController {
     }
 
     /**
-     * Member 회원가입 폼
+     * Member 회원가입 폼 불러오기
      */
     @GetMapping("/member/register")
     public String registerForm(Model model) {
@@ -84,16 +84,13 @@ public class MemberController {
     }
 
     /**
-     * Member 회원가입
+     * Member 회원가입 시작
      */
     @PostMapping("/member/register")
     public String register(@Validated  @ModelAttribute MemberRegistrationForm form, BindingResult bidingResult) {
 
-        if (bidingResult.hasErrors()) {
-            System.out.println("bidingResult = " + bidingResult.getAllErrors());
+        if (bidingResult.hasErrors()) return "member/memberRegistrationForm";
 
-            return "member/memberRegistrationForm";
-        }
         MemberDto dto = MemberDto.builder()
                 .email(form.getEmail())
                 .username(form.getUsername())
@@ -112,10 +109,4 @@ public class MemberController {
         model.addAttribute("loginForm", new LoginForm());
         return "member/loginForm";
     }
-
-    /** 로그아웃
-     *
-     */
-
-
 }

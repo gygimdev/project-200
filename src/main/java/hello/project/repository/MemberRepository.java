@@ -11,6 +11,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByEmail(String email);
 
+    Boolean existsByEmail(String email);
+
     @Query("SELECT count(h) FROM Member m JOIN m.household h WHERE m.email = :email")
     Long countMemberHousehold(@Param("email") String email);
 
