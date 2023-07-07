@@ -48,7 +48,7 @@ public class MemberController {
                 .build();
 
         memberService.updateMyInfo(dto);
-        return "redirect:/member/myinfo";
+        return "redirect:/dashboard";
     }
 
     /** 나의 정보
