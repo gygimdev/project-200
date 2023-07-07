@@ -9,5 +9,5 @@ ALTER TABLE
 ADD FOREIGN KEY
     (member_id)
 REFERENCES
-    Member(member_id)
+    member(member_id)
 ;
