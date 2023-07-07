@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -91,9 +90,6 @@ public class MemberService {
     @Transactional
     public void RegisterMember(MemberDto dto, String password) {
 
-        //이메일 중복검증
-        checkDuplicateMemberEmail(dto.getEmail());
-
         //비밀번호 암호화
         String encodedPassword = createEncodePassword(password);
 
@@ -106,13 +102,6 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
-    }
-
-    private void checkDuplicateMemberEmail(String email) {
-        Optional<Member> findMember = memberRepository.findByEmail(email);
-        if(findMember.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 유저입니다.");
-        }
     }
 
     /**
